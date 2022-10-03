@@ -54,9 +54,10 @@ public class SpringbootGendbRestApiApplication implements CommandLineRunner {
 		User admin = new User();
 		admin.setId(1L);
 		admin.setEmail("axel@amthor.de");
-		admin.setName("Axel Amthor");
+		admin.setLastname("Amthor");
+		admin.setSurname("Axel");
 		admin.setPassword(passwordEncoder.encode("123"));
-		admin.setUsername("xlthor");
+		admin.setLoginname("xlthor");
 		
 		Role roles = roleRepository.findByName("ROLE_ADMIN").get();
 		admin.setRoles(Collections.singleton(roles));

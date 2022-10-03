@@ -1,17 +1,11 @@
-package de.amthor.gendb.service.impl;
+package de.amthor.gendb.unusedstuff;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import de.amthor.gendb.entity.Comment;
-import de.amthor.gendb.entity.Post;
 import de.amthor.gendb.exception.GendbAPIException;
 import de.amthor.gendb.exception.ResourceNotFoundException;
-import de.amthor.gendb.payload.CommentDto;
-import de.amthor.gendb.repository.CommentRepository;
-import de.amthor.gendb.repository.PostRepository;
-import de.amthor.gendb.service.CommentService;
 
 import java.util.List;
 import java.util.stream.Collectors;

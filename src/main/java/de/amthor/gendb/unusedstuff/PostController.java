@@ -1,4 +1,4 @@
-package de.amthor.gendb.controller;
+package de.amthor.gendb.unusedstuff;
 
 import javax.validation.Valid;
 
@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.amthor.gendb.payload.PostDto;
-import de.amthor.gendb.payload.PostResponse;
-import de.amthor.gendb.service.PostService;
 import de.amthor.gendb.utils.AppConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

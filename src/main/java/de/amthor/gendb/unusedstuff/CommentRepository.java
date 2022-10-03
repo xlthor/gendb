@@ -1,8 +1,6 @@
-package de.amthor.gendb.repository;
+package de.amthor.gendb.unusedstuff;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import de.amthor.gendb.entity.Comment;
 
 import java.util.List;
 

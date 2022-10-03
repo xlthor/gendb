@@ -9,6 +9,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +39,10 @@ public class SwaggerConfig {
     @Bean
     public Docket api(){
         return new Docket(DocumentationType.SWAGGER_2)
+        		
+        		// if this is missing, all the REST Endpoints get a query param "name" in the swagger documentation
+        		.ignoredParameterTypes(Principal.class)
+        		
                 .apiInfo(apiInfo())
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(Arrays.asList(apiKey()))

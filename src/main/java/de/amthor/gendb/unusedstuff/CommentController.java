@@ -1,13 +1,10 @@
-package de.amthor.gendb.controller;
+package de.amthor.gendb.unusedstuff;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import de.amthor.gendb.payload.CommentDto;
-import de.amthor.gendb.service.CommentService;
 
 import javax.validation.Valid;
 import java.util.List;

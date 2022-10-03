@@ -1,7 +1,4 @@
-package de.amthor.gendb.service;
-
-import de.amthor.gendb.payload.PostDto;
-import de.amthor.gendb.payload.PostResponse;
+package de.amthor.gendb.unusedstuff;
 
 public interface PostService {
     PostDto createPost(PostDto postDto);

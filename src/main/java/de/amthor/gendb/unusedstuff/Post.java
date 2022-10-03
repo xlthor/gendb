@@ -1,6 +1,7 @@
-package de.amthor.gendb.entity;
+package de.amthor.gendb.unusedstuff;
 
 import javax.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 

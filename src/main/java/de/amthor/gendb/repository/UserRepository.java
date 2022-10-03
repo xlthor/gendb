@@ -8,8 +8,8 @@ import de.amthor.gendb.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
-    Optional<User> findByUsernameOrEmail(String username, String email);
-    Optional<User> findByUsername(String username);
-    Boolean existsByUsername(String username);
+    Optional<User> findByLoginnameOrEmail(String loginname, String email);
+    Optional<User> findByLoginname(String loginname);
+    Boolean existsByLoginname(String loginname);
     Boolean existsByEmail(String email);
 }

@@ -1,8 +1,6 @@
-package de.amthor.gendb.service;
+package de.amthor.gendb.unusedstuff;
 
 import java.util.List;
-
-import de.amthor.gendb.payload.CommentDto;
 
 public interface CommentService {
     CommentDto createComment(long postId, CommentDto commentDto);

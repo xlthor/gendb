@@ -46,11 +46,11 @@ public class AuthController {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
-    @ApiOperation(value = "REST API to Register or Signup user to gendb app")
+    @ApiOperation(value = "REST API to Signin or Login user to gendb app")
     @PostMapping("/signin")
     public ResponseEntity<JWTAuthResponse> authenticateUser(@RequestBody LoginDto loginDto){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.getUsernameOrEmail(), loginDto.getPassword()));
+                loginDto.getLoginnameOrEmail(), loginDto.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -60,13 +60,13 @@ public class AuthController {
         return ResponseEntity.ok(new JWTAuthResponse(token));
     }
 
-    @ApiOperation(value = "REST API to Signin or Login user to gendb app")
+    @ApiOperation(value = "REST API to Register or Signup a new user to gendb app")
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
 
-        // add check for username exists in a DB
-        if(userRepository.existsByUsername(signUpDto.getUsername())){
-            return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
+        // add check for loginname exists in a DB
+        if(userRepository.existsByLoginname(signUpDto.getLoginname())){
+            return new ResponseEntity<>("Loginname is already taken!", HttpStatus.BAD_REQUEST);
         }
 
         // add check for email exists in DB
@@ -76,8 +76,9 @@ public class AuthController {
 
         // create user object
         User user = new User();
-        user.setName(signUpDto.getName());
-        user.setUsername(signUpDto.getUsername());
+        user.setSurname(signUpDto.getSurname());
+        user.setLastname(signUpDto.getLastname());
+        user.setLoginname(signUpDto.getLoginname());
         user.setEmail(signUpDto.getEmail());
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
 

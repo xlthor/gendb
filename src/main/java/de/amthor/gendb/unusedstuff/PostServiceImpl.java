@@ -1,4 +1,4 @@
-package de.amthor.gendb.service.impl;
+package de.amthor.gendb.unusedstuff;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -7,12 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import de.amthor.gendb.entity.Post;
 import de.amthor.gendb.exception.ResourceNotFoundException;
-import de.amthor.gendb.payload.PostDto;
-import de.amthor.gendb.payload.PostResponse;
-import de.amthor.gendb.repository.PostRepository;
-import de.amthor.gendb.service.PostService;
 
 import java.util.List;
 import java.util.stream.Collectors;
