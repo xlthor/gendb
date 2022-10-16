@@ -13,7 +13,7 @@ import lombok.Data;
 public class ReleaseDto {
 
 	@ApiModelProperty(value = "Release Id")
-	private long id;
+	private long releaseid;
 	
 	@ApiModelProperty(value = "Release version number")
     @NotEmpty(message = "Version must not be null or empty")
@@ -21,6 +21,9 @@ public class ReleaseDto {
 	
 	@ApiModelProperty(value = "Release Description")
 	private String description;
+	
+	@ApiModelProperty(value = "Name for the release")
+	private String name;
 	
 	@ApiModelProperty(value = "Date of Release")
 	private Date since;
@@ -30,6 +33,9 @@ public class ReleaseDto {
 	
 	@ApiModelProperty(value = "Release last change date")
 	private Date updated;
+	
+	@ApiModelProperty(value = "Parent Project")
+	long projectId;
 	
 	
 	

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
 
+import de.amthor.gendb.entity.Release;
 import de.amthor.gendb.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
@@ -33,5 +34,8 @@ public class ProjectDto {
 	
 	@ApiModelProperty(value = "List of project owners")
 	private Set<User> users;
+	
+	@ApiModelProperty(value = "List of releases in this project")
+	private Set<Release> releases;
 
 }

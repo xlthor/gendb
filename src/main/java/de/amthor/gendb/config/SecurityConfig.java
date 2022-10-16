@@ -23,6 +23,7 @@ import de.amthor.gendb.security.CustomUserDetailsService;
 import de.amthor.gendb.security.JwtAuthenticationEntryPoint;
 import de.amthor.gendb.security.JwtAuthenticationFilter;
 
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -73,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
-    @Override
+	@Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
@@ -82,10 +83,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     @Bean
     protected UserDetailsService userDetailsService() {
-        UserDetails ramesh = User.builder().username("axel").password(passwordEncoder()
+    	// FIXME add the real users here ...?
+        UserDetails axel = User.builder().username("axel").password(passwordEncoder()
                 .encode("password")).roles("USER").build();
         UserDetails admin = User.builder().username("admin").password(passwordEncoder()
                 .encode("admin")).roles("ADMIN").build();
-        return new InMemoryUserDetailsManager(ramesh, admin);
+        return new InMemoryUserDetailsManager(axel, admin);
     }
 }

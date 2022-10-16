@@ -11,5 +11,9 @@ public class AppConstants {
     public static final String API_BASE = "/api/v1";
     
     public static final String PROJECTS = "projects";
-
+    public static final String RELEASES = "releases";
+    public static final String DATABASES = "databases";
+    
+    public static final String DBTYPES_FILE = "dbtypes.csv";
+	public static final String COLLATIONS_FILE = "collations.csv";
 }

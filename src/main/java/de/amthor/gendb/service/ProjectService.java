@@ -1,6 +1,5 @@
 package de.amthor.gendb.service;
 
-import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -8,7 +7,7 @@ import javax.validation.Valid;
 import de.amthor.gendb.entity.User;
 import de.amthor.gendb.payload.ProjectDto;
 import de.amthor.gendb.payload.ProjectResponse;
->
+
 public interface ProjectService {
 
 	/**
