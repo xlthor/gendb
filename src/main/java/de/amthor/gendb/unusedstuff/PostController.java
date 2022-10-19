@@ -11,17 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import de.amthor.gendb.utils.AppConstants;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "CRUD Rest APIs for Post resources")
-@RestController
-@RequestMapping()
+//@Api(value = "CRUD Rest APIs for Post resources")
+//@RestController
+//@RequestMapping()
 public class PostController {
 
     private PostService postService;

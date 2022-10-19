@@ -63,8 +63,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/webjars/**").permitAll()
-                .anyRequest()
-                .authenticated();
+                
+                // seed data, no need to protect
+                .antMatchers("/api/v1/databases/types").permitAll()
+                .antMatchers("/api/v1/databases/types/*").permitAll()
+                .antMatchers("/api/v1/databases/types/**").permitAll()
+                
+                // default
+                .anyRequest().authenticated();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 

@@ -1,5 +1,6 @@
 package de.amthor.gendb.service;
 
+import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -62,5 +63,7 @@ public interface ProjectService {
 	 * @return
 	 */
 	ProjectDto getProjectByIdAndUser(Long projectId, Set<User> users);
+
+	Optional<ProjectDto> getProjectByReleaseAndUser(long releaseId, User user);
 
 }

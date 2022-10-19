@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import de.amthor.gendb.payload.ProjectDto;
 import de.amthor.gendb.payload.ProjectResponse;
+import de.amthor.gendb.payload.Views;
 import de.amthor.gendb.utils.AppConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,10 +35,16 @@ public interface ProjectOperations {
 	 * @param principal
 	 * @return
 	 */
+	@JsonView({Views.Response.class})
 	@ApiOperation(value = "Create new Project for the current user")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(AppConstants.PROJECTS)
-	ResponseEntity<ProjectDto> createProject(@Valid @RequestBody ProjectDto projectDto, Principal principal);
+	ResponseEntity<ProjectDto> createProject(
+			@Valid 
+			@RequestBody
+			@JsonView({Views.Create.class})
+			ProjectDto projectDto, 
+			Principal principal);
 
 	/**
 	 * Get project of current user by ID.
@@ -44,6 +53,7 @@ public interface ProjectOperations {
 	 * @param principal
 	 * @return
 	 */
+	@JsonView({Views.Response.class})
 	@ApiOperation(value = "Get project of current user by ID.")
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(AppConstants.PROJECTS + "/{id}")
@@ -67,7 +77,7 @@ public interface ProjectOperations {
 	    @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
 	    @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
 	    @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir,
-    Principal principal);
+	    Principal principal);
 
 	/**
 	 * Update Project of current user by ID
@@ -77,16 +87,20 @@ public interface ProjectOperations {
 	 * @param principal
 	 * @return
 	 */
+	@JsonView({Views.Response.class})
 	@ApiOperation(value = "Update Project of current user by ID")
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(AppConstants.PROJECTS + "/{id}")
 	ResponseEntity<ProjectDto> updateProject(@PathVariable(value = "id") Long projectId,
-            @Valid @RequestBody ProjectDto projectDto,
+            @Valid 
+            @RequestBody 
+            @JsonView({Views.ParentUpdate.class})
+            ProjectDto projectDto,
             Principal principal);
 
 	
 	/**
-	 * Delete the prject with ID if it belongs the current user
+	 * Delete the project with ID if it belongs the current user
 	 * 
 	 * @param projectId
 	 * @param principal

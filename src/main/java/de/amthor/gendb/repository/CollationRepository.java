@@ -1,5 +1,7 @@
 package de.amthor.gendb.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import de.amthor.gendb.entity.Collation;
@@ -14,6 +16,8 @@ public interface CollationRepository extends JpaRepository<Collation, Long> {
 	boolean existsByCollation(String name);
 
 	boolean existsByCollationAndTypename(String collation, String typename);
+
+	Page<Collation> findAllByTypename(Pageable pageable, String typename);
 	
 
 }

@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import de.amthor.gendb.entity.Release;
 import de.amthor.gendb.entity.User;
 import de.amthor.gendb.exception.ResourceNotFoundException;
@@ -23,6 +25,7 @@ import de.amthor.gendb.payload.DatabaseResponse;
 import de.amthor.gendb.payload.DbTypeDto;
 import de.amthor.gendb.payload.DbTypeResponse;
 import de.amthor.gendb.payload.ProjectDto;
+import de.amthor.gendb.payload.Views;
 import de.amthor.gendb.service.DatabaseService;
 import de.amthor.gendb.service.ProjectService;
 import de.amthor.gendb.service.ReleaseService;
@@ -48,6 +51,22 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProjectController.c
 	@Override
 	public ResponseEntity<DatabaseDto> createDatabase(@Valid DatabaseDto databaseDto, Principal principal) {
 
+		checkProjectAccess(databaseDto, principal);
+    	
+    	// ok, all good, let's create a database:
+    	DatabaseDto database = databaseService.createDatabase(databaseDto);
+    	
+    	return new ResponseEntity<>(database, HttpStatus.CREATED);
+	}
+
+	/**
+	 * If the project of this database belongs to this user, it will be returned. Otherwise an exception is thrown.
+	 * 
+	 * @param databaseDto
+	 * @param principal
+	 */
+	private ProjectDto checkProjectAccess(DatabaseDto databaseDto, Principal principal) {
+		ProjectDto project;
 		// find the current user
     	User user = getLoggedInUser(principal);
     	LOGGER.debug(user.toString());
@@ -57,57 +76,69 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProjectController.c
     	// cascade the hierarchy and check the users rights
     	long releaseId = databaseDto.getReleaseId();
     	Release release = releaseService.getReleaseById(releaseId).orElseThrow(() -> new ResourceNotFoundException("Release", "id", releaseId));
-    	ProjectDto project = projectService.getProjectByIdAndUser(release.getProjectId(), Collections.singleton(user));
+    	project = projectService.getProjectByIdAndUser(release.getProjectId(), Collections.singleton(user));
     	if ( project == null )
     		throw new ResourceNotFoundException("Project", "id", release.getProjectId());
     	
-    	// ok, all good, let's create a database:
-    	DatabaseDto database = databaseService.createDatabase(databaseDto);
-    	
-    	return new ResponseEntity<>(database, HttpStatus.CREATED);
+    	return project;
 	}
 
 	@Override
 	public ResponseEntity<DatabaseDto> getDatabaseById(long databaseId, Principal principal) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		DatabaseDto databaseDto = databaseService.getDatabaseById(databaseId)
+															.orElseThrow(() -> new ResourceNotFoundException("Database", "id", databaseId));
+		 
+		checkProjectAccess(databaseDto, principal);
+    	
+    	// ok, all good, let's return the database:
+    	return new ResponseEntity<>(databaseDto, HttpStatus.CREATED);
 	}
 
 	@Override
-	public DatabaseResponse getAllDatabases(long releaseid, int pageNo, int pageSize, String sortBy, String sortDir,
-			Principal principal) {
-		// TODO Auto-generated method stub
-		return null;
+	@JsonView({Views.Response.class})
+	public DatabaseResponse getAllDatabases(long releaseId, int pageNo, int pageSize, String sortBy, String sortDir, Principal principal) {
+		
+		User user = getLoggedInUser(principal);
+		
+		// check access
+		projectService.getProjectByReleaseAndUser(releaseId, user)
+																.orElseThrow(() -> new ResourceNotFoundException("Release", "id", releaseId));
+		return databaseService.getAllDatabases(releaseId, pageNo, pageSize, sortBy, sortDir);
 	}
 
 	@Override
 	public ResponseEntity<DatabaseDto> updateDatabase(@Valid DatabaseDto databaseDto, Principal principal) {
-		// TODO Auto-generated method stub
-		return null;
+		checkProjectAccess(databaseDto, principal);
+		DatabaseDto updated = databaseService.updateDatabase(databaseDto);
+		return new ResponseEntity<>(updated, HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<String> deleteDatabase(Long databaseId, Principal principal) {
-		// TODO Auto-generated method stub
-		return null;
+		DatabaseDto databaseDto = databaseService.getDatabaseById(databaseId).orElseThrow(() -> new ResourceNotFoundException("Database", "id", databaseId));
+		checkProjectAccess(databaseDto, principal);
+		databaseService.deleteDatabase(databaseDto);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@Override
-	public DbTypeResponse getDatabaseTypes(Principal principal) {
-		// TODO Auto-generated method stub
-		return null;
+	public DbTypeResponse getDatabaseTypes(int pageNo, int pageSize, String sortBy, String sortDir) {
+		return databaseService.getDatabaseTypes(pageNo, pageSize, sortBy, sortDir);
 	}
 
 	@Override
-	public CollationResponse getDbTypeCollations(Long dbtypeid, Principal principal) {
-		// TODO Auto-generated method stub
-		return null;
+	public CollationResponse getDbTypeCollations(Long dbtypeid, int pageNo, int pageSize, String sortBy, String sortDir) {
+		return databaseService.getCollationsForType(dbtypeid, pageNo, pageSize, sortBy, sortDir);
 	}
 
 	@Override
 	public ResponseEntity<DbTypeDto> getDbType(Long dbtypeid, Principal principal) {
-		// TODO Auto-generated method stub
-		return null;
+
+		DbTypeDto dbTypeDto = databaseService.getDbTypeById(dbtypeid)
+															.orElseThrow(() -> new ResourceNotFoundException("Database Type", "id", dbtypeid));
+		
+		return new ResponseEntity<>(dbTypeDto, HttpStatus.OK);
 	}
 
 }

@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import de.amthor.gendb.payload.ReleaseDto;
 import de.amthor.gendb.payload.ReleaseResponse;
+import de.amthor.gendb.payload.Views;
 import de.amthor.gendb.utils.AppConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +38,13 @@ public interface ReleaseOperations {
 	@ApiOperation(value = "Create a new release in the given project")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(AppConstants.RELEASES)
-	ResponseEntity<ReleaseDto> createRelease(@Valid @RequestBody ReleaseDto releaseDto, Principal principal);
+	@JsonView({Views.Response.class})
+	ResponseEntity<ReleaseDto> createRelease(
+			@Valid 
+			@RequestBody
+			@JsonView({Views.Create.class})
+			ReleaseDto releaseDto, 
+			Principal principal);
 
 	/**
 	 *Get release with id (if the according project belongs to user).
@@ -47,6 +56,7 @@ public interface ReleaseOperations {
 	@ApiOperation(value = "Get release with id (if the according project belongs to user).")
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(AppConstants.RELEASES + "/{id}")
+	@JsonView({Views.Response.class})
 	ResponseEntity<ReleaseDto> getReleaseById(
     		@PathVariable(value = "id")long releaseId, Principal principal);
 
@@ -62,6 +72,7 @@ public interface ReleaseOperations {
 	@ApiOperation(value = "Get All Releases of the current user for particular project")
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(AppConstants.RELEASES + "/project/{projectid}")
+	@JsonView({Views.Response.class})
 	ReleaseResponse getAllReleases(
 			@PathVariable(value = "projectid") long projectid,
 		    @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -80,8 +91,12 @@ public interface ReleaseOperations {
 	@ApiOperation(value = "Update Release of current user by ID")
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(AppConstants.RELEASES)
+	@JsonView({Views.Response.class})
 	ResponseEntity<ReleaseDto> updateRelease(
-			@Valid @RequestBody ReleaseDto releaseDto,
+			@Valid 
+			@RequestBody 
+			@JsonView({Views.ReleaseUpdate.class})
+			ReleaseDto releaseDto,
             Principal principal);
 
 	

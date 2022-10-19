@@ -11,10 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import de.amthor.gendb.entity.User;
 import de.amthor.gendb.operations.ProjectOperations;
 import de.amthor.gendb.payload.ProjectDto;
 import de.amthor.gendb.payload.ProjectResponse;
+import de.amthor.gendb.payload.UserDto;
+import de.amthor.gendb.payload.Views;
 import de.amthor.gendb.service.ProjectService;
 
 @RestController
@@ -40,7 +44,7 @@ public class ProjectController extends ControllerBase implements ProjectOperatio
     	User user = getLoggedInUser(principal);
     	LOGGER.debug(user.toString());
         
-    	projectDto.setUsers(Collections.singleton(user));
+    	projectDto.setUsers(Collections.singleton(genericSimpleMapper(user, UserDto.class)));
     	
         return new ResponseEntity<>(projectService.createProject(projectDto), HttpStatus.CREATED);
     }
@@ -64,6 +68,7 @@ public class ProjectController extends ControllerBase implements ProjectOperatio
     
     @Override
     @PreAuthorize("hasRole('ADMIN')")
+    @JsonView({Views.Response.class})
     public ProjectResponse getAllProjects(
             int pageNo,
             int pageSize,

@@ -4,6 +4,7 @@
 package de.amthor.gendb.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -87,7 +88,8 @@ public class ProjectServiceImpl extends ServiceBase implements ProjectService {
 		 * Deleting all users is not possible (empty list)
 		 * As we are not cascading, it will only update the reference, not the user itself.
 		 */
-		Set<User> requestedUsers = projectDto.getUsers();
+		// listOfProjects.stream().map(project -> genericSimpleMapper(project, ProjectDto.class)).collect(Collectors.toList());
+		Set<User> requestedUsers = projectDto.getUsers().stream().map(userDto -> genericSimpleMapper(userDto, User.class)).collect(Collectors.toSet());
 		if ( requestedUsers != null && !requestedUsers.isEmpty() )
 		{
 			for ( User rUser : requestedUsers ) {
@@ -105,7 +107,7 @@ public class ProjectServiceImpl extends ServiceBase implements ProjectService {
 		 * it will not remove any release as this would lead to an orphan release!
 		 * As we are not cascading, this will only update the reference, not the release itself.
 		 */
-		Set<Release> requestedReleases = projectDto.getReleases();
+		Set<Release> requestedReleases = projectDto.getReleases().stream().map(releaseDto -> genericSimpleMapper(releaseDto, Release.class)).collect(Collectors.toSet());
 		if ( requestedReleases != null && !requestedReleases.isEmpty() )
 		{
 			for ( Release rRelease : requestedReleases ) {
@@ -178,6 +180,12 @@ public class ProjectServiceImpl extends ServiceBase implements ProjectService {
 		Project project = projectRepository.findByIdAndUsersIn(projectId, users);
 				
 		return genericSimpleMapper(project, ProjectDto.class);
+	}
+
+	@Override
+	public Optional<ProjectDto> getProjectByReleaseAndUser(long releaseId, User user) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
 	}
 
 }

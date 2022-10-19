@@ -5,6 +5,9 @@ import lombok.Data;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import de.amthor.gendb.payload.Views;
 
 import java.util.Date;
 import java.util.Set;
@@ -19,8 +22,12 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView({Views.Response.class, Views.Update.class})
     private long id;
+    
+    @JsonView({Views.Response.class})
     private String surname;
+    @JsonView({Views.Response.class})
     private String lastname;
     
     /*
@@ -28,12 +35,15 @@ public class User {
      */
     @JsonIgnore
     private String loginname;
+    @JsonView({Views.Response.class})
     private String email;
     
     @JsonIgnore
     private String password;
 
+    @JsonView({Views.Response.class})
     private Date created;
+    @JsonView({Views.Response.class})
     private Date updated;
 
     @PrePersist

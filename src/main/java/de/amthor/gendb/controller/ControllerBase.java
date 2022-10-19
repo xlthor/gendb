@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 
 import de.amthor.gendb.entity.User;
 import de.amthor.gendb.exception.ResourceNotFoundException;

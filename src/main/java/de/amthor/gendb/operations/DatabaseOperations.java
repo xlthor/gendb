@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import de.amthor.gendb.payload.CollationResponse;
 import de.amthor.gendb.payload.DatabaseDto;
 import de.amthor.gendb.payload.DatabaseResponse;
 import de.amthor.gendb.payload.DbTypeDto;
 import de.amthor.gendb.payload.DbTypeResponse;
+import de.amthor.gendb.payload.Views;
 import de.amthor.gendb.utils.AppConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,13 +38,19 @@ public interface DatabaseOperations {
 	 * @param principal
 	 * @return
 	 */
-	@ApiOperation(value = "Create a new database in the given project")
+	@ApiOperation(value = "Create a new database in the given release")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(AppConstants.DATABASES)
-	ResponseEntity<DatabaseDto> createDatabase(@Valid @RequestBody DatabaseDto databaseDto, Principal principal);
+	@JsonView(Views.Response.class)
+	ResponseEntity<DatabaseDto> createDatabase(
+			@Valid 
+			@RequestBody
+			@JsonView(Views.DatabaseCreate.class)
+			DatabaseDto databaseDto, 
+			Principal principal);
 
 	/**
-	 *Get database with id (if the according project belongs to user).
+	 * Get database with id (if the according project belongs to user).
 	 * 
 	 * @param databaseId
 	 * @param principal
@@ -50,6 +59,7 @@ public interface DatabaseOperations {
 	@ApiOperation(value = "Get database with id (if the according project belongs to user).")
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(AppConstants.DATABASES + "/{id}")
+	@JsonView(Views.Response.class)
 	ResponseEntity<DatabaseDto> getDatabaseById(
     		@PathVariable(value = "id")long databaseId, Principal principal);
 
@@ -65,6 +75,7 @@ public interface DatabaseOperations {
 	@ApiOperation(value = "Get All Databases of the current user for particular release")
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(AppConstants.DATABASES + "/release/{releaseid}")
+	@JsonView(Views.Response.class)
 	DatabaseResponse getAllDatabases(
 			@PathVariable(value = "releaseid") long releaseid,
 		    @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -83,8 +94,12 @@ public interface DatabaseOperations {
 	@ApiOperation(value = "Update Database of current user by ID")
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(AppConstants.DATABASES)
+	@JsonView(Views.Response.class)
 	ResponseEntity<DatabaseDto> updateDatabase(
-			@Valid @RequestBody DatabaseDto databaseDto,
+			@Valid 
+			@RequestBody
+			@JsonView(Views.DatabaseUpdate.class)
+			DatabaseDto databaseDto,
             Principal principal);
 
 	
@@ -109,9 +124,13 @@ public interface DatabaseOperations {
 	 * @return
 	 */
 	@ApiOperation(value = "Get all database types")
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(AppConstants.DATABASES + "/types")
-	DbTypeResponse getDatabaseTypes(Principal principal);
+	@JsonView(Views.Response.class)
+	DbTypeResponse getDatabaseTypes(
+			@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+		    @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+		    @RequestParam(value = "sortBy", defaultValue = "typeid", required = false) String sortBy,
+		    @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir);
 	
 	
 	/**
@@ -121,9 +140,14 @@ public interface DatabaseOperations {
 	 * @return
 	 */
 	@ApiOperation(value = "Get all collations of a particular database type.")
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(AppConstants.DATABASES + "/types/{dbtypeid}/collations")
-	CollationResponse getDbTypeCollations(@PathVariable(value = "dbtypeid") Long dbtypeid, Principal principal);
+	@JsonView(Views.Response.class)
+	CollationResponse getDbTypeCollations(
+			@PathVariable(value = "dbtypeid") Long dbtypeid, 
+			@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+		    @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+		    @RequestParam(value = "sortBy", defaultValue = "collationid", required = false) String sortBy,
+		    @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir);
 	
 	
 	/**
@@ -134,7 +158,7 @@ public interface DatabaseOperations {
 	 * @return
 	 */
 	@ApiOperation(value = "Get a particular database by its id.")
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(AppConstants.DATABASES + "/types/{dbtypeid}")
+	@JsonView(Views.Response.class)
 	ResponseEntity<DbTypeDto> getDbType(@PathVariable(value = "dbtypeid") Long dbtypeid, Principal principal);
 }
