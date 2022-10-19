@@ -31,9 +31,10 @@ With GenDB, developers are able to describe their database within a given projec
 They can easily generate all necessary DDL scripts to create the described database. 
 
 Once a new release needs modifications within the database, users can create a new release within their projects and 
-apply the according modifications with the new release. 
+apply the according modifications within the new release. 
 
-GenDB generates the migration scripts automatically and these can be applied to an existing database to migrate it to the new version (i.e. with tools like flyway etc.).
+GenDB generates the migration scripts automatically by comparing two given releases (i.e. "migrate to version 2 from version 1") and these scripts 
+can be applied to an existing database to migrate it to the new version (i.e. with tools like flyway etc.).
 
 # Current Status of Development
 
