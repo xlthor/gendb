@@ -7,6 +7,7 @@ A web application, that helps developers and product owners to document and main
 * define projects, releases, databases, tables and columns outside of the database in a declarative way
 * generate DDL to create and seed the database
 * generate DDLs to migrate an existing database from one release to another release  forth and back.
+* automatically populate tables with any seed data (and generate seed data templates)
 * import structure of a database from an existing database automatically
 
 # Why GenDB?
@@ -28,7 +29,7 @@ Furthermore, the documentation often exists separately from the manually written
 
 With GenDB, developers are able to describe their database within a given project for a given release. 
 
-They can easily generate all necessary DDL scripts to create the described database. 
+They can easily generate all necessary DDL scripts to create the described database and load according seed data if necessary
 
 Once a new release needs modifications within the database, users can create a new release within their projects and 
 apply the according modifications within the new release. 
@@ -38,5 +39,5 @@ can be applied to an existing database to migrate it to the new version (i.e. wi
 
 # Current Status of Development
 
-* October 2022: Currently, the entire logic of the system will be implemented "headless" ("API first" approach).
+* October 2022:<br>Currently, the entire logic of the system will be implemented "headless" ("API first" approach) as REST APIs. The backend is a spring-boot application, providing all necessary APIs to control the entire System. A frontend (REACT, ANT, ...) will be applied in the next step as soon as this is finished as an "MVP".
 
