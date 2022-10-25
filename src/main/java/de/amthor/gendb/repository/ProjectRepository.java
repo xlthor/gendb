@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import de.amthor.gendb.entity.Project;
+import de.amthor.gendb.entity.Release;
 import de.amthor.gendb.entity.User;
 
 /**
@@ -24,5 +25,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 	Page<Project> findByUsersIn(Pageable pageable, Set<User> users);
 
 	Project findByIdAndUsersIn(Long id, Set<User> users);
+
+	Optional<Project> findByReleasesInAndUsersIn(Set<Release> releases, Set<User> users);
 	
 }

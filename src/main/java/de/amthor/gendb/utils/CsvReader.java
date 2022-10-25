@@ -18,7 +18,28 @@ public class CsvReader {
 	
 	public <T> List<T> loadObjectList(Class<T> type, String fileName) {
 	    try {
-	        CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader();
+	        CsvSchema bootstrapSchema = CsvSchema
+	        		.emptySchema()
+	        		.withHeader();
+	        
+	        CsvMapper mapper = new CsvMapper();
+	        File file = new ClassPathResource(fileName).getFile();
+	        MappingIterator<T> readValues = 
+	          mapper.readerFor(type).with(bootstrapSchema).readValues(file);
+	        return readValues.readAll();
+	    } catch (Exception e) {
+	    	LOGGER.error("Error occurred while loading object list from file " + fileName, e);
+	        return Collections.emptyList();
+	    }
+	}
+	
+	public <T> List<T> loadObjectList(Class<T> type, String fileName, char separator) {
+	    try {
+	        CsvSchema bootstrapSchema = CsvSchema
+	        		.emptySchema()
+	        		.withColumnSeparator(separator)
+	        		.withHeader();
+	        
 	        CsvMapper mapper = new CsvMapper();
 	        File file = new ClassPathResource(fileName).getFile();
 	        MappingIterator<T> readValues = 

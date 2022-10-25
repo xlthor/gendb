@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.amthor.gendb.payload;
 
 import java.util.List;
@@ -11,17 +8,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @author axel
- *
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReleaseResponse {
+public class DatabaseTablesResponse {
 
-	@JsonView({Views.Response.class, Views.DatabaseResponse.class})
-    private List<ReleaseDto> releases;
+	@JsonView(Views.Response.class)
+	private List<TableDto> tables;
 	
 	@JsonView(Views.Response.class)
     private int pageNo;

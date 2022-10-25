@@ -48,7 +48,7 @@ public class ReleaseDto {
 	@ApiModelProperty(value = "Parent Project")
 	long projectId;
 	
-	@JsonView({Views.Response.class, Views.ReleaseUpdate.class})
+	@JsonView({Views.Response.class, Views.DatabaseResponse.class, Views.ReleaseUpdate.class})
 	@ApiModelProperty(value = "List of Databases in this release")
 	private Set<DatabaseDto> databases;
 	

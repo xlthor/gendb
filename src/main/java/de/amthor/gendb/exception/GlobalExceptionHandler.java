@@ -56,6 +56,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     	ErrorDetails errorDetails = new ErrorDetails(1005, new Date(), exception.getMessage(), webRequest.getDescription(false));
 		return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
     }
+    
+    @ExceptionHandler(ReferenceException.class)
+    public ResponseEntity<ErrorDetails> handleReferenceException(ReferenceException exception, WebRequest webRequest) {
+    	ErrorDetails errorDetails = new ErrorDetails(1006, new Date(), exception.getMessage(), webRequest.getDescription(false));
+		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,

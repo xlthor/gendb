@@ -13,7 +13,10 @@ public class AppConstants {
     public static final String PROJECTS = "projects";
     public static final String RELEASES = "releases";
     public static final String DATABASES = "databases";
+    public static final String TABLES = "tables";
     
     public static final String DBTYPES_FILE = "dbtypes.csv";
 	public static final String COLLATIONS_FILE = "collations.csv";
+	public static final String TABLEFORMATS_FILE = "tableformats.csv";
+	
 }

@@ -13,8 +13,10 @@ import org.springframework.stereotype.Component;
 
 import de.amthor.gendb.entity.Collation;
 import de.amthor.gendb.entity.DbType;
+import de.amthor.gendb.entity.Tableformat;
 import de.amthor.gendb.repository.CollationRepository;
 import de.amthor.gendb.repository.DBTypeRepository;
+import de.amthor.gendb.repository.FormatRepository;
 import de.amthor.gendb.utils.AppConstants;
 import de.amthor.gendb.utils.CsvReader;
 import lombok.Data;
@@ -39,12 +41,16 @@ public class Setup {
 	@Autowired
 	CollationRepository collationRepository;
 	
+	@Autowired
+	FormatRepository formatRepository;
+	
     @PostConstruct
     private void setupData() {
     	
     	LOGGER.debug("============> Entering Setup Bean ....");
         setUpDBTypes();
         setUpCollations();
+        setUpTableformats();
     }
     
     private void setUpDBTypes() {
@@ -118,6 +124,52 @@ public class Setup {
 	        	col.setTypename(dbType.getTypename());
 	        	
         		collationRepository.save(col);
+        	}
+        }
+    }
+	
+	@Getter
+	@Setter
+	@Data
+	static class ImportTableformat {
+		private String typename;
+		private String formatname;
+		private String description;
+	}
+	
+	/**
+	 * Initial load of the table format / engine table
+	 */
+	public void setUpTableformats() {
+	    
+    	CsvReader csvDataLoader = new CsvReader();
+    	
+    	
+        List<ImportTableformat> impFormats = csvDataLoader.loadObjectList(ImportTableformat.class, AppConstants.TABLEFORMATS_FILE, ';');
+        
+        for (ImportTableformat impFormat : impFormats) {
+        	
+        	DbType dbType = typeCache.get(impFormat.getTypename());
+        	if ( dbType == null ) {
+        		Optional<DbType> optionalDbType = dbTypeRepository.findByTypename(impFormat.getTypename());
+        		if ( optionalDbType.isPresent() ) {
+        			dbType = optionalDbType.get();
+        			typeCache.put(dbType.getTypename(), dbType);
+        		}
+        		else
+        			continue;
+        	}
+        	
+        	if ( !formatRepository.existsByFormatnameAndTypename(impFormat.getFormatname(), dbType.getTypename()) ) {
+	        	LOGGER.debug(impFormat.toString());
+	        	
+	        	Tableformat format = new Tableformat();
+	        	
+	        	format.setFormatname(impFormat.getFormatname());
+	        	format.setTypename(dbType.getTypename());
+	        	format.setDescription(impFormat.getDescription());
+	        	
+	        	formatRepository.save(format);
         	}
         }
     }

@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import de.amthor.gendb.payload.CollationResponse;
 import de.amthor.gendb.payload.DatabaseDto;
 import de.amthor.gendb.payload.DatabaseResponse;
+import de.amthor.gendb.payload.DatabaseTablesResponse;
 import de.amthor.gendb.payload.DbTypeDto;
 import de.amthor.gendb.payload.DbTypeResponse;
 import de.amthor.gendb.payload.Views;
@@ -41,7 +42,7 @@ public interface DatabaseOperations {
 	@ApiOperation(value = "Create a new database in the given release")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(AppConstants.DATABASES)
-	@JsonView(Views.Response.class)
+	@JsonView(Views.DatabaseResponse.class)
 	ResponseEntity<DatabaseDto> createDatabase(
 			@Valid 
 			@RequestBody
@@ -59,10 +60,11 @@ public interface DatabaseOperations {
 	@ApiOperation(value = "Get database with id (if the according project belongs to user).")
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(AppConstants.DATABASES + "/{id}")
-	@JsonView(Views.Response.class)
+	@JsonView(Views.DatabaseResponse.class)
 	ResponseEntity<DatabaseDto> getDatabaseById(
     		@PathVariable(value = "id")long databaseId, Principal principal);
 
+	
 	/**
 	 * Get all projects of the current user
 	 * @param pageNo
@@ -75,7 +77,7 @@ public interface DatabaseOperations {
 	@ApiOperation(value = "Get All Databases of the current user for particular release")
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(AppConstants.DATABASES + "/release/{releaseid}")
-	@JsonView(Views.Response.class)
+	@JsonView(Views.DatabaseResponse.class) 
 	DatabaseResponse getAllDatabases(
 			@PathVariable(value = "releaseid") long releaseid,
 		    @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -94,7 +96,7 @@ public interface DatabaseOperations {
 	@ApiOperation(value = "Update Database of current user by ID")
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(AppConstants.DATABASES)
-	@JsonView(Views.Response.class)
+	@JsonView(Views.DatabaseResponse.class)
 	ResponseEntity<DatabaseDto> updateDatabase(
 			@Valid 
 			@RequestBody
@@ -125,7 +127,7 @@ public interface DatabaseOperations {
 	 */
 	@ApiOperation(value = "Get all database types")
     @GetMapping(AppConstants.DATABASES + "/types")
-	@JsonView(Views.Response.class)
+	@JsonView(Views.DatabaseResponse.class)
 	DbTypeResponse getDatabaseTypes(
 			@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
 		    @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
@@ -141,7 +143,7 @@ public interface DatabaseOperations {
 	 */
 	@ApiOperation(value = "Get all collations of a particular database type.")
     @GetMapping(AppConstants.DATABASES + "/types/{dbtypeid}/collations")
-	@JsonView(Views.Response.class)
+	@JsonView(Views.DatabaseResponse.class)
 	CollationResponse getDbTypeCollations(
 			@PathVariable(value = "dbtypeid") Long dbtypeid, 
 			@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -159,6 +161,6 @@ public interface DatabaseOperations {
 	 */
 	@ApiOperation(value = "Get a particular database by its id.")
     @GetMapping(AppConstants.DATABASES + "/types/{dbtypeid}")
-	@JsonView(Views.Response.class)
+	@JsonView(Views.DatabaseResponse.class)
 	ResponseEntity<DbTypeDto> getDbType(@PathVariable(value = "dbtypeid") Long dbtypeid, Principal principal);
 }

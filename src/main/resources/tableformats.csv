@@ -1,0 +1,15 @@
+typename;formatname;description
+MySQL;MRG_MyISAM;Collection of identical MyISAM tables
+MySQL;CSV;Stores tables as CSV files
+MySQL;SEQUENCE;Generated tables filled with sequential values
+MySQL;MyISAM;Non-transactional engine with good performance and small data footprint
+MySQL;MEMORY;Hash based, stored in memory, useful for temporary tables
+MySQL;InnoDB;Supports transactions, row-level locking, foreign keys and encryption for tables
+MySQL;Aria;Crash-safe tables with MyISAM heritage
+MariaDB;MRG_MyISAM;Collection of identical MyISAM tables
+MariaDB;CSV;Stores tables as CSV files
+MariaDB;SEQUENCE;Generated tables filled with sequential values
+MariaDB;MyISAM;Non-transactional engine with good performance and small data footprint
+MariaDB;MEMORY;Hash based, stored in memory, useful for temporary tables
+MariaDB;InnoDB;Supports transactions, row-level locking, foreign keys and encryption for tables
+MariaDB;Aria;Crash-safe tables with MyISAM heritage

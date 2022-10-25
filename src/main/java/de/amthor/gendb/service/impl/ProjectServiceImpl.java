@@ -3,6 +3,7 @@
  */
 package de.amthor.gendb.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import de.amthor.gendb.entity.Project;
 import de.amthor.gendb.entity.Release;
 import de.amthor.gendb.entity.User;
+import de.amthor.gendb.exception.ChildRecordExists;
 import de.amthor.gendb.exception.ResourceNotFoundException;
 import de.amthor.gendb.payload.ProjectDto;
 import de.amthor.gendb.payload.ProjectResponse;
@@ -131,18 +133,11 @@ public class ProjectServiceImpl extends ServiceBase implements ProjectService {
 	@Override
 	public void deleteProjectById(long id) {
 		Project project = projectRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Project", "id", id));
-		projectRepository.delete(project);
 		
-		/*
-		 * FIXME: we need to delete all subsequent objects one by one!
-		 * 
-		 * 	delete the releases
-		 * 		delete the databases of each release
-		 * 			delete the tables of each database
-		 * 				delete the columns of each table
-		 * 					...
-		 * 
-		 */
+		if ( project.getReleases().size() > 0 )
+			throw new ChildRecordExists("Releases");
+			
+		projectRepository.delete(project);
 	}
 
 	@Override
@@ -184,8 +179,18 @@ public class ProjectServiceImpl extends ServiceBase implements ProjectService {
 
 	@Override
 	public Optional<ProjectDto> getProjectByReleaseAndUser(long releaseId, User user) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		
+		Release release = releaseRepository.findById(releaseId).orElseThrow(() -> new ResourceNotFoundException("Release", "releasid", releaseId));
+		
+		Set<Release> releases = Collections.singleton(release);
+		Set<User> users = Collections.singleton(user);
+		
+		Optional<Project> project = projectRepository.findByReleasesInAndUsersIn(releases, users);
+		
+		if ( project.isPresent() )
+			return Optional.of(genericSimpleMapper(project.get(), ProjectDto.class));
+		else
+			return Optional.empty();
 	}
 
 }

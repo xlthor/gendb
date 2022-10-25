@@ -13,21 +13,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DatabaseResponse {
 
-	@JsonView(Views.Response.class)
+	@JsonView(Views.DatabaseResponse.class)
 	private List<DatabaseDto> databases;
 	
-	@JsonView(Views.Response.class)
+	@JsonView(Views.DatabaseResponse.class)
     private int pageNo;
 	
-	@JsonView(Views.Response.class)
+	@JsonView(Views.DatabaseResponse.class)
     private int pageSize;
 	
-	@JsonView(Views.Response.class)
+	@JsonView(Views.DatabaseResponse.class)
     private long totalElements;
 	
-	@JsonView(Views.Response.class)
+	@JsonView(Views.DatabaseResponse.class)
     private int totalPages;
 	
-	@JsonView(Views.Response.class)
+	@JsonView(Views.DatabaseResponse.class)
     private boolean last;
 }

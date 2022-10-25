@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import de.amthor.gendb.entity.Collation;
 import de.amthor.gendb.entity.Database;
 import de.amthor.gendb.entity.DbType;
+import de.amthor.gendb.entity.Release;
 import de.amthor.gendb.exception.AlreadyExistsException;
 import de.amthor.gendb.exception.ResourceNotFoundException;
 import de.amthor.gendb.payload.CollationDto;
@@ -30,7 +31,9 @@ import de.amthor.gendb.payload.DbTypeResponse;
 import de.amthor.gendb.repository.CollationRepository;
 import de.amthor.gendb.repository.DBTypeRepository;
 import de.amthor.gendb.repository.DatabaseRepository;
+import de.amthor.gendb.repository.ReleaseRepository;
 import de.amthor.gendb.service.DatabaseService;
+import de.amthor.gendb.utils.GenericPageableResponse;
 
 @Service
 public class DatabaseServiceImpl extends ServiceBase implements DatabaseService {
@@ -45,6 +48,9 @@ public class DatabaseServiceImpl extends ServiceBase implements DatabaseService 
 	
 	@Autowired
 	CollationRepository collationRepository;
+
+	@Autowired
+	ReleaseRepository releaseRepository;
 	
 	public DatabaseServiceImpl(DatabaseRepository databaseRepository, ModelMapper mapper) {
 		super(mapper);
@@ -61,9 +67,9 @@ public class DatabaseServiceImpl extends ServiceBase implements DatabaseService 
 			throw new AlreadyExistsException("Database", "dbname", database.getDbname());
 	
 		// link to valid DBType
-		String dbTypename = databaseDto.getDbType().getTypename();
-		String version = databaseDto.getDbType().getVersion();
-		DbType dbType = dbTypeRepository.findByTypenameAndVersion(dbTypename, version).orElseThrow(() -> new ResourceNotFoundException("Database Type", "dbTypeName", dbTypename));	
+		long typeId = databaseDto.getDbType().getTypeid();
+//		String version = databaseDto.getDbType().getVersion();
+		DbType dbType = dbTypeRepository.findById(typeId).orElseThrow(() -> new ResourceNotFoundException("Database Type", "dbTypeName", typeId));	
 		
 		database.setDbType(dbType);		
 		
@@ -75,15 +81,45 @@ public class DatabaseServiceImpl extends ServiceBase implements DatabaseService 
 	@Override
 	public Optional<DatabaseDto> getDatabaseById(long databaseId) {
 
-		Database database = databaseRepository.findById(databaseId).orElseThrow(() -> new ResourceNotFoundException("Database", "DB ID", databaseId));
+		Database database = databaseRepository.findById(databaseId).orElseThrow(() -> new ResourceNotFoundException("Database", "DB Id", databaseId));
 		
 		return Optional.of(genericSimpleMapper(database,DatabaseDto.class));
 	}
 
 	@Override
 	public DatabaseResponse getAllDatabases(long releaseId, int pageNo, int pageSize, String sortBy, String sortDir) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Release release = releaseRepository.findById(releaseId).orElseThrow(() -> new ResourceNotFoundException("Release", "Release Id", releaseId));
+
+        
+		Pageable pageable = GenericPageableResponse.createPageable(pageNo, pageSize, sortBy, sortDir);
+		
+        Page<Database> dblist = databaseRepository.findAllByReleaseId(pageable, release.getReleaseid());
+        
+        DatabaseResponse dbs = createPageResponse(dblist);
+
+        return dbs;
+        
+	}
+
+	/**
+	 * @param dblist
+	 * @return
+	 */
+	private DatabaseResponse createPageResponse(Page<Database> dblist) {
+		// get content for page object
+        List<Database> listOfDbs = dblist.getContent();
+
+        List<DatabaseDto> content = listOfDbs.stream().map(db -> genericSimpleMapper(db, DatabaseDto.class)).collect(Collectors.toList());
+
+        DatabaseResponse dbs = new DatabaseResponse();
+        dbs.setDatabases(content);
+        dbs.setPageNo(dblist.getNumber());
+        dbs.setPageSize(dblist.getSize());
+        dbs.setTotalElements(dblist.getTotalElements());
+        dbs.setTotalPages(dblist.getTotalPages());
+        dbs.setLast(dblist.isLast());
+		return dbs;
 	}
 
 	@Override
@@ -108,7 +144,12 @@ public class DatabaseServiceImpl extends ServiceBase implements DatabaseService 
 
 	@Override
 	public void deleteDatabase(DatabaseDto databaseDto) {
-		// TODO Auto-generated method stub
+		
+		Database db = databaseRepository.findById(databaseDto.getDbid()).orElseThrow(() -> new ResourceNotFoundException("Database", "DB Id", databaseDto.getDbid()));
+
+		// FIXME: check whether there are still tables and do not delete in this case!
+		
+		databaseRepository.deleteById(db.getDbid());
 		
 	}
 
@@ -133,7 +174,7 @@ public class DatabaseServiceImpl extends ServiceBase implements DatabaseService 
         
         Page<DbType> typelist = dbTypeRepository.findAll(pageable);
         
-     // get content for page object
+        // get content for page object
         List<DbType> listOfDbTypes = typelist.getContent();
 
         List<DbTypeDto> content = listOfDbTypes.stream().map(dbtype -> genericSimpleMapper(dbtype, DbTypeDto.class)).collect(Collectors.toList());

@@ -22,6 +22,7 @@ import de.amthor.gendb.operations.DatabaseOperations;
 import de.amthor.gendb.payload.CollationResponse;
 import de.amthor.gendb.payload.DatabaseDto;
 import de.amthor.gendb.payload.DatabaseResponse;
+import de.amthor.gendb.payload.DatabaseTablesResponse;
 import de.amthor.gendb.payload.DbTypeDto;
 import de.amthor.gendb.payload.DbTypeResponse;
 import de.amthor.gendb.payload.ProjectDto;
@@ -96,14 +97,14 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProjectController.c
 	}
 
 	@Override
-	@JsonView({Views.Response.class})
+	@JsonView({Views.DatabaseResponse.class})
 	public DatabaseResponse getAllDatabases(long releaseId, int pageNo, int pageSize, String sortBy, String sortDir, Principal principal) {
 		
 		User user = getLoggedInUser(principal);
 		
 		// check access
 		projectService.getProjectByReleaseAndUser(releaseId, user)
-																.orElseThrow(() -> new ResourceNotFoundException("Release", "id", releaseId));
+																.orElseThrow(() -> new ResourceNotFoundException("Project by Release", "releaseid", releaseId));
 		return databaseService.getAllDatabases(releaseId, pageNo, pageSize, sortBy, sortDir);
 	}
 
@@ -140,5 +141,6 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProjectController.c
 		
 		return new ResponseEntity<>(dbTypeDto, HttpStatus.OK);
 	}
+
 
 }
