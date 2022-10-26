@@ -7,8 +7,6 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.springframework.data.domain.Sort;
-
 import de.amthor.gendb.entity.Release;
 import de.amthor.gendb.payload.ReleaseDto;
 import de.amthor.gendb.payload.ReleaseResponse;

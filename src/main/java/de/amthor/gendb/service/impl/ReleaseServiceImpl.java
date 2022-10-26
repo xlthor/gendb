@@ -3,27 +3,18 @@
  */
 package de.amthor.gendb.service.impl;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import de.amthor.gendb.entity.Release;
 import de.amthor.gendb.exception.AlreadyExistsException;
 import de.amthor.gendb.exception.ResourceNotFoundException;
-import de.amthor.gendb.payload.ProjectDto;
-import de.amthor.gendb.payload.ProjectResponse;
 import de.amthor.gendb.payload.ReleaseDto;
 import de.amthor.gendb.payload.ReleaseResponse;
 import de.amthor.gendb.repository.ReleaseRepository;
@@ -37,6 +28,7 @@ import de.amthor.gendb.utils.PageableResponse;
 @Service
 public class ReleaseServiceImpl implements ReleaseService {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReleaseServiceImpl.class);
 	
 	private ReleaseRepository releaseRepository;

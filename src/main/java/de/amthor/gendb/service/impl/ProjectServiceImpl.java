@@ -4,7 +4,6 @@
 package de.amthor.gendb.service.impl;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,10 +12,6 @@ import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import de.amthor.gendb.entity.Project;
@@ -24,8 +19,6 @@ import de.amthor.gendb.entity.Release;
 import de.amthor.gendb.entity.User;
 import de.amthor.gendb.exception.ChildRecordExists;
 import de.amthor.gendb.exception.ResourceNotFoundException;
-import de.amthor.gendb.payload.DbTypeDto;
-import de.amthor.gendb.payload.DbTypeResponse;
 import de.amthor.gendb.payload.ProjectDto;
 import de.amthor.gendb.payload.ProjectResponse;
 import de.amthor.gendb.repository.ProjectRepository;
