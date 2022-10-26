@@ -64,7 +64,7 @@ public class TableController extends ControllerBase implements TableOperations {
 											.orElseThrow(() -> new ResourceNotFoundException("Database", "id", tableDto.getDatabaseId()));
 		
 		@SuppressWarnings("unused")
-		ProjectDto project = checkProjectAccess(tableDto, databaseDto, principal);
+		ProjectDto project = checkProjectAccess(databaseDto, principal);
 		
 		// check uniqueness: table name for this database
 		Optional<TableDto> tmpTable = tableService.getTable(tableDto);
@@ -101,7 +101,7 @@ public class TableController extends ControllerBase implements TableOperations {
 	 * @param databaseDto 
 	 * @param principal
 	 */
-	private ProjectDto checkProjectAccess(TableDto tableDto, DatabaseDto databaseDto, Principal principal) {
+	private ProjectDto checkProjectAccess(DatabaseDto databaseDto, Principal principal) {
 		
 		ProjectDto project;
 		// find the current user
@@ -136,10 +136,18 @@ public class TableController extends ControllerBase implements TableOperations {
 	}
 
 	@Override
-	public TableResponse getAllTables(Long dbid, int pageNo, int pageSize, String sortBy, String sortDir,
-			Principal principal) {
-		// TODO Auto-generated method stub
-		return null;
+	public TableResponse getAllTables(Long dbid, int pageNo, int pageSize, String sortBy, String sortDir, Principal principal) {
+		
+		TableResponse tableResponse = null;
+		
+    	DatabaseDto databaseDto = databaseService.getDatabaseById(dbid)
+				.orElseThrow(() -> new ResourceNotFoundException("Database", "id", dbid));
+    	@SuppressWarnings("unused")
+		ProjectDto project = checkProjectAccess(databaseDto, principal);
+    	
+    	tableResponse  = tableService.getAllTablesOfDatabase(dbid, pageNo, pageSize, sortBy, sortDir);
+    	
+    	return tableResponse;
 	}
 
 	@Override
@@ -149,7 +157,7 @@ public class TableController extends ControllerBase implements TableOperations {
 										.orElseThrow(() -> new ResourceNotFoundException("Database", "id", tableDto.getDatabaseId()));
 
 		@SuppressWarnings("unused")
-		ProjectDto project = checkProjectAccess(tableDto, databaseDto, principal);
+		ProjectDto project = checkProjectAccess(databaseDto, principal);
 		
 		// check uniqueness: table name for this database
 		Optional<TableDto> tmpTable = tableService.getTable(tableDto);
@@ -192,7 +200,7 @@ public class TableController extends ControllerBase implements TableOperations {
 				.orElseThrow(() -> new ResourceNotFoundException("Database", "id", tableDto.getDatabaseId()));
 
 		@SuppressWarnings("unused")
-		ProjectDto project = checkProjectAccess(tableDto, databaseDto, principal);
+		ProjectDto project = checkProjectAccess(databaseDto, principal);
 		
 		// FIXME: check for children: columns, seed data etc.
 

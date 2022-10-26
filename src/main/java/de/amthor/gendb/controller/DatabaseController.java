@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
+import de.amthor.gendb.entity.Collation;
+import de.amthor.gendb.entity.DbType;
 import de.amthor.gendb.entity.Release;
 import de.amthor.gendb.entity.User;
+import de.amthor.gendb.exception.ReferenceException;
 import de.amthor.gendb.exception.ResourceNotFoundException;
 import de.amthor.gendb.operations.DatabaseOperations;
+import de.amthor.gendb.payload.CollationDto;
 import de.amthor.gendb.payload.CollationResponse;
 import de.amthor.gendb.payload.DatabaseDto;
 import de.amthor.gendb.payload.DatabaseResponse;
-import de.amthor.gendb.payload.DatabaseTablesResponse;
 import de.amthor.gendb.payload.DbTypeDto;
 import de.amthor.gendb.payload.DbTypeResponse;
 import de.amthor.gendb.payload.ProjectDto;
@@ -30,6 +33,7 @@ import de.amthor.gendb.payload.Views;
 import de.amthor.gendb.service.DatabaseService;
 import de.amthor.gendb.service.ProjectService;
 import de.amthor.gendb.service.ReleaseService;
+import de.amthor.gendb.service.TableService;
 
 @RestController
 public class DatabaseController extends ControllerBase implements DatabaseOperations {
@@ -44,6 +48,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProjectController.c
 	@Autowired
 	ProjectService projectService;
 	
+	@Autowired
+	TableService tableService;
+	
 	public DatabaseController(DatabaseService databaseService, ModelMapper mapper) {
 		super(mapper);
 		this.databaseService = databaseService;
@@ -53,6 +60,14 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProjectController.c
 	public ResponseEntity<DatabaseDto> createDatabase(@Valid DatabaseDto databaseDto, Principal principal) {
 
 		checkProjectAccess(databaseDto, principal);
+		
+		// check the collation
+		Collation collation = databaseService.getCollation(databaseDto.getCollation().getCollationid());
+		DbType dbType = databaseService.getDBType(databaseDto.getDbType().getTypeid());
+		
+		if ( dbType == null || collation == null || !collation.getTypename().equals(dbType.getTypename()) ) {
+			throw new ReferenceException("Type of collation and database mismatched or missing");
+		}
     	
     	// ok, all good, let's create a database:
     	DatabaseDto database = databaseService.createDatabase(databaseDto);
@@ -111,7 +126,17 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProjectController.c
 	@Override
 	public ResponseEntity<DatabaseDto> updateDatabase(@Valid DatabaseDto databaseDto, Principal principal) {
 		checkProjectAccess(databaseDto, principal);
+		
+		// check the collation
+		CollationDto collation = tableService.getCollation(databaseDto.getCollation().getCollationid());
+		DbType dbType = databaseService.getDBType(databaseDto.getDbType().getTypeid());
+		
+		if ( dbType == null || collation == null || !collation.getTypename().equals(dbType.getTypename()) ) {
+			throw new ReferenceException("Type of collation and database mismatched or missing");
+		}
+				
 		DatabaseDto updated = databaseService.updateDatabase(databaseDto);
+		
 		return new ResponseEntity<>(updated, HttpStatus.OK);
 	}
 

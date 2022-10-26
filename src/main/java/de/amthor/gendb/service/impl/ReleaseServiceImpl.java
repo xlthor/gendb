@@ -22,10 +22,13 @@ import org.springframework.stereotype.Service;
 import de.amthor.gendb.entity.Release;
 import de.amthor.gendb.exception.AlreadyExistsException;
 import de.amthor.gendb.exception.ResourceNotFoundException;
+import de.amthor.gendb.payload.ProjectDto;
+import de.amthor.gendb.payload.ProjectResponse;
 import de.amthor.gendb.payload.ReleaseDto;
 import de.amthor.gendb.payload.ReleaseResponse;
 import de.amthor.gendb.repository.ReleaseRepository;
 import de.amthor.gendb.service.ReleaseService;
+import de.amthor.gendb.utils.PageableResponse;
 
 /**
  * @author axel
@@ -110,30 +113,19 @@ public class ReleaseServiceImpl implements ReleaseService {
 	}
 
 	@Override
-	public ReleaseResponse getAllReleases(int pageNo, int pageSize, Sort sort, long projectId) {
+	public ReleaseResponse getAllReleases(int pageNo, int pageSize, String sortBy, String sortDir, long projectId) {
 		
-		// create Pageable instance
-        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        
-		Page<Release> releases = releaseRepository.findByProjectId(pageable, projectId);
+		ReleaseResponse releaseResponse = new PageableResponse.Builder()
+				.mapper(mapper)
+				.pageNo(pageNo)
+				.pageSize(pageSize)
+				.sortBy(sortBy)
+				.sortDir(sortDir)
+				.responseDto(new ReleaseResponse())
+				.setPage( (pageable) -> releaseRepository.findByProjectId(pageable, projectId) )
+				.setElementType(ReleaseDto.class)
+				.build();
 		
-		// get content for page object
-        List<Release> listOfReleases = releases.getContent();
-
-        LOGGER.info(Arrays.toString(listOfReleases.toArray()));
-        
-        List<ReleaseDto> content = listOfReleases.stream().map(release -> mapToDTO(release)).collect(Collectors.toList());
-        
-        LOGGER.info(Arrays.toString(content.toArray()));
-        
-		ReleaseResponse releaseResponse = new ReleaseResponse();
-        releaseResponse.setReleases(content);
-        releaseResponse.setPageNo(releases.getNumber());
-        releaseResponse.setPageSize(releases.getSize());
-        releaseResponse.setTotalElements(releases.getTotalElements());
-        releaseResponse.setTotalPages(releases.getTotalPages());
-        releaseResponse.setLast(releases.isLast());
-
         return releaseResponse;
 	}
 	

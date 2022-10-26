@@ -9,6 +9,9 @@ package de.amthor.gendb.payload;
 public class Views {
 
 	
+	public class GenericPageableResponse {
+
+	}
 	public class TableCreate {};
 	public class TableUpdate extends TableCreate {};
 

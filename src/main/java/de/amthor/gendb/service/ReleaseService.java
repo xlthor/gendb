@@ -57,6 +57,6 @@ public interface ReleaseService {
 	 * @param projectId
 	 * @return
 	 */
-	public ReleaseResponse getAllReleases(int pageNo, int pageSize, Sort sort, long projectId);
+	public ReleaseResponse getAllReleases(int pageNo, int pageSize, String sortBy, String sortDir, long projectId);
 
 }

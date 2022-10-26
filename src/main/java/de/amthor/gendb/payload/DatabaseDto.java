@@ -26,7 +26,7 @@ public class DatabaseDto {
 	private String description;
 	
 	@JsonView({Views.DatabaseResponse.class, Views.Create.class, Views.DatabaseCreate.class})
-	@ApiModelProperty(value = "Release id")
+	@ApiModelProperty(value = "Release Id")
 	private long releaseId;
 	
 	/** DB Type */
@@ -34,8 +34,13 @@ public class DatabaseDto {
 	@ApiModelProperty(value = "Database Type")
 	private DbTypeDto dbType;
 	
+	/** collation and charset */
+	@JsonView({Views.DatabaseResponse.class, Views.DatabaseCreate.class, Views.DatabaseUpdate.class})
+	@ApiModelProperty(value = "Collation and charset of this database")
+	private CollationDto collation;
+	
 	@JsonView({Views.DatabaseResponse.class})
-	@ApiModelProperty(value = "Database tables")
+	@ApiModelProperty(value = "Database Tables")
 	private Set<TableDto> tables;
 	
 	@JsonView({Views.DatabaseResponse.class})

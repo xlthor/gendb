@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import de.amthor.gendb.entity.Collation;
+import de.amthor.gendb.entity.DbType;
 import de.amthor.gendb.payload.CollationResponse;
 import de.amthor.gendb.payload.DatabaseDto;
 import de.amthor.gendb.payload.DatabaseResponse;
@@ -75,5 +77,13 @@ public interface DatabaseService {
 	 */
 	public CollationResponse getCollationsForType(Long dbtypeid, int pageNo, int pageSize, String sortBy,
 			String sortDir);
+
+	/**
+	 * @param typeId
+	 * @return
+	 */
+	public DbType getDBType(long typeId);
+
+	public Collation getCollation(long collationid);
 
 }

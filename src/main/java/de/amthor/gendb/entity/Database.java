@@ -52,8 +52,12 @@ public class Database {
 	DbType dbType;
 	
 	@OneToMany(fetch = FetchType.LAZY) // no cascade here!
-	@JoinColumn(name = "table_id", unique=false)
+	@JoinColumn(name = "database_id", unique=false)
 	private Set<GdbTable> tables;
+	
+	@OneToOne
+	/** the collation of this table */
+	Collation collation;
 	
 	private Date created;
 	private Date updated;

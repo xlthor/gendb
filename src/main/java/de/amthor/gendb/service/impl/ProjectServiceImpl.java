@@ -24,12 +24,15 @@ import de.amthor.gendb.entity.Release;
 import de.amthor.gendb.entity.User;
 import de.amthor.gendb.exception.ChildRecordExists;
 import de.amthor.gendb.exception.ResourceNotFoundException;
+import de.amthor.gendb.payload.DbTypeDto;
+import de.amthor.gendb.payload.DbTypeResponse;
 import de.amthor.gendb.payload.ProjectDto;
 import de.amthor.gendb.payload.ProjectResponse;
 import de.amthor.gendb.repository.ProjectRepository;
 import de.amthor.gendb.repository.ReleaseRepository;
 import de.amthor.gendb.repository.UserRepository;
 import de.amthor.gendb.service.ProjectService;
+import de.amthor.gendb.utils.PageableResponse;
 
 /**
  * @author axel
@@ -143,28 +146,17 @@ public class ProjectServiceImpl extends ServiceBase implements ProjectService {
 	@Override
 	public ProjectResponse getAllProjects(int pageNo, int pageSize, String sortBy, String sortDir, Set<User> users) {
 		
-		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
-
-        // create Pageable instance
-        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-
-        // get projects of this user
-		Page<Project> projects = projectRepository.findByUsersIn(pageable, users);
+		ProjectResponse projectResponse = new PageableResponse.Builder()
+				.mapper(mapper)
+				.pageNo(pageNo)
+				.pageSize(pageSize)
+				.sortBy(sortBy)
+				.sortDir(sortDir)
+				.responseDto(new ProjectResponse())
+				.setPage( (pageable) -> projectRepository.findByUsersIn(pageable, users) )
+				.setElementType(ProjectDto.class)
+				.build();
 		
-        // get content for page object
-        List<Project> listOfProjects = projects.getContent();
-
-        List<ProjectDto> content = listOfProjects.stream().map(project -> genericSimpleMapper(project, ProjectDto.class)).collect(Collectors.toList());
-
-        ProjectResponse projectResponse = new ProjectResponse();
-        projectResponse.setProjects(content);
-        projectResponse.setPageNo(projects.getNumber());
-        projectResponse.setPageSize(projects.getSize());
-        projectResponse.setTotalElements(projects.getTotalElements());
-        projectResponse.setTotalPages(projects.getTotalPages());
-        projectResponse.setLast(projects.isLast());
-
         return projectResponse;
         
 	}

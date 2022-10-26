@@ -6,7 +6,7 @@ import org.modelmapper.ModelMapper;
 public class ServiceBase {
 
 	
-	private ModelMapper mapper;
+	protected ModelMapper mapper;
 
 	public ServiceBase(ModelMapper mapper) {
         this.mapper = mapper;

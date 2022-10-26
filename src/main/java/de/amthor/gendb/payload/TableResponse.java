@@ -2,33 +2,33 @@ package de.amthor.gendb.payload;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TableResponse {
+public class TableResponse extends PageableResponseDto {
 
 	@JsonView({Views.Response.class})
-    private List<TableDto> tables;
+	@JsonProperty("tables")
+    List<TableDto> elements;
 	
 	@JsonView(Views.Response.class)
-    private int pageNo;
+    int pageNo;
 	
 	@JsonView(Views.Response.class)
-    private int pageSize;
+    int pageSize;
 	
 	@JsonView(Views.Response.class)
-    private long totalElements;
+    long totalElements;
 	
 	@JsonView(Views.Response.class)
-    private int totalPages;
+    int totalPages;
 	
 	@JsonView(Views.Response.class)
-    private boolean last;
+    boolean last;
 	
 }

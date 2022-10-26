@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import de.amthor.gendb.payload.CollationResponse;
 import de.amthor.gendb.payload.DatabaseDto;
 import de.amthor.gendb.payload.DatabaseResponse;
-import de.amthor.gendb.payload.DatabaseTablesResponse;
 import de.amthor.gendb.payload.DbTypeDto;
 import de.amthor.gendb.payload.DbTypeResponse;
 import de.amthor.gendb.payload.Views;

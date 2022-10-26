@@ -5,37 +5,37 @@ package de.amthor.gendb.payload;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
  * @author axel
  *
  */
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonView(Views.Response.class)
-public class CollationResponse {
+@JsonView(Views.DatabaseResponse.class)
+public class CollationResponse extends PageableResponseDto {
 
-	@JsonView(Views.Response.class)
-    private List<CollationDto> collations;
+	@JsonView(Views.DatabaseResponse.class)
+	@JsonProperty("collations")
+    List<CollationDto> elements;
 	
-	@JsonView(Views.Response.class)
-    private int pageNo;
+	@JsonView(Views.DatabaseResponse.class)
+    int pageNo;
 	
-	@JsonView(Views.Response.class)
-    private int pageSize;
+	@JsonView(Views.DatabaseResponse.class)
+    int pageSize;
 	
-	@JsonView(Views.Response.class)
-    private long totalElements;
+	@JsonView(Views.DatabaseResponse.class)
+    long totalElements;
 	
-	@JsonView(Views.Response.class)
-    private int totalPages;
+	@JsonView(Views.DatabaseResponse.class)
+    int totalPages;
 	
-	@JsonView(Views.Response.class)
-    private boolean last;
+	@JsonView(Views.DatabaseResponse.class)
+    boolean last;
 }

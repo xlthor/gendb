@@ -13,10 +13,12 @@ import de.amthor.gendb.entity.GdbTable;
 import de.amthor.gendb.entity.Tableformat;
 import de.amthor.gendb.payload.CollationDto;
 import de.amthor.gendb.payload.TableDto;
+import de.amthor.gendb.payload.TableResponse;
 import de.amthor.gendb.repository.CollationRepository;
 import de.amthor.gendb.repository.FormatRepository;
 import de.amthor.gendb.repository.TableRepository;
 import de.amthor.gendb.service.TableService;
+import de.amthor.gendb.utils.PageableResponse;
 
 @Service
 public class TableServiceImpl extends ServiceBase implements TableService {
@@ -87,6 +89,23 @@ public class TableServiceImpl extends ServiceBase implements TableService {
 		
 		tableRepository.deleteById(tableId);
 		
+	}
+
+	@Override
+	public TableResponse getAllTablesOfDatabase(Long dbid, int pageNo, int pageSize, String sortBy, String sortDir) {
+
+		TableResponse tableResponse = new PageableResponse.Builder()
+			.mapper(mapper)
+			.pageNo(pageNo)
+			.pageSize(pageSize)
+			.sortBy(sortBy)
+			.sortDir(sortDir)
+			.responseDto(new TableResponse())
+			.setPage( (pageable) -> tableRepository.findAllByDatabaseId(pageable, dbid) )
+			.setElementType(TableDto.class)
+			.build();
+		
+		return tableResponse;
 	}
 
 }

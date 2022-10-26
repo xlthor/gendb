@@ -11,6 +11,7 @@ import de.amthor.gendb.entity.GdbTable;
 import de.amthor.gendb.entity.Tableformat;
 import de.amthor.gendb.payload.CollationDto;
 import de.amthor.gendb.payload.TableDto;
+import de.amthor.gendb.payload.TableResponse;
 
 /**
  * @author axel
@@ -31,5 +32,7 @@ public interface TableService {
 	Optional<TableDto> getTable(Long tableId);
 
 	void deleteTable(Long tableId);
+
+	TableResponse getAllTablesOfDatabase(Long dbid, int pageNo, int pageSize, String sortBy, String sortDir);
 
 }

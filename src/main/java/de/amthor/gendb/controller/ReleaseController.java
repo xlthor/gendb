@@ -89,12 +89,9 @@ public class ReleaseController extends ControllerBase implements ReleaseOperatio
     	ProjectDto projectDto = projectService.getProjectByIdAndUser(projectId, Collections.singleton(user));
     	
     	if ( projectDto != null ) {
-    		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
 			
     		// we have a release and the users project
-    		ReleaseResponse releases = releaseService.getAllReleases(pageNo, pageSize, sort, projectId);
-    		
-    		LOGGER.info(releases.toString());
+    		ReleaseResponse releases = releaseService.getAllReleases(pageNo, pageSize, sortBy, sortDir, projectId);
     		
 			return releases;
 		}
