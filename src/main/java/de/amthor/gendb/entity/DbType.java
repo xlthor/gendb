@@ -2,6 +2,7 @@ package de.amthor.gendb.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,7 +40,9 @@ public class DbType {
 	/** a description */
 	String description;
 	
+	@Column(updatable = false, insertable = true)
 	private Date created;
+	
 	private Date updated;
 	
 	@PrePersist

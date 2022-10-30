@@ -42,7 +42,9 @@ public class User {
     private String password;
 
     @JsonView({Views.Response.class})
+    @Column(updatable = false, insertable = true)
     private Date created;
+    
     @JsonView({Views.Response.class})
     private Date updated;
 

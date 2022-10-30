@@ -202,8 +202,6 @@ public class TableController extends ControllerBase implements TableOperations {
 		@SuppressWarnings("unused")
 		ProjectDto project = checkProjectAccess(databaseDto, principal);
 		
-		// FIXME: check for children: columns, seed data etc.
-
 		tableService.deleteTable(tableId);
 		
 		return new ResponseEntity<>(HttpStatus.OK);

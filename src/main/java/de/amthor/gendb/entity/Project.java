@@ -3,6 +3,7 @@ package de.amthor.gendb.entity;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -47,7 +48,9 @@ public class Project {
 	@JoinColumn(name = "project_id", unique=false)
 	private Set<Release> releases;
 	
+	@Column(updatable = false, insertable = true)
 	private Date created;
+	
 	private Date updated;
 	
 	@PrePersist

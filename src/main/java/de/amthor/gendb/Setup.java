@@ -12,9 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import de.amthor.gendb.entity.Collation;
+import de.amthor.gendb.entity.Coltype;
+import de.amthor.gendb.entity.ColumnParameter;
 import de.amthor.gendb.entity.DbType;
 import de.amthor.gendb.entity.Tableformat;
 import de.amthor.gendb.repository.CollationRepository;
+import de.amthor.gendb.repository.ColtypesRepository;
+import de.amthor.gendb.repository.ColumnParamRepository;
 import de.amthor.gendb.repository.DBTypeRepository;
 import de.amthor.gendb.repository.FormatRepository;
 import de.amthor.gendb.utils.AppConstants;
@@ -44,13 +48,25 @@ public class Setup {
 	@Autowired
 	FormatRepository formatRepository;
 	
+	@Autowired
+	ColtypesRepository coltypesRepository;
+	
+	@Autowired
+	ColumnParamRepository columnParamRepository;
+	
     @PostConstruct
     private void setupData() {
     	
-    	LOGGER.debug("============> Entering Setup Bean ....");
+    	LOGGER.info("============> Entering Setup Bean ....");
         setUpDBTypes();
         setUpCollations();
         setUpTableformats();
+        setUpColtypes();
+        setUpColParams();
+        
+        
+        LOGGER.info("============> Setup finished.");
+        
     }
     
     private void setUpDBTypes() {
@@ -103,19 +119,13 @@ public class Setup {
         
         for (ImportCollation impCollation : impCollations) {
         	
-        	DbType dbType = typeCache.get(impCollation.getTypename());
-        	if ( dbType == null ) {
-        		Optional<DbType> optionalDbType = dbTypeRepository.findByTypename(impCollation.getTypename());
-        		if ( optionalDbType.isPresent() ) {
-        			dbType = optionalDbType.get();
-        			typeCache.put(dbType.getTypename(), dbType);
-        		}
-        		else
-        			continue;
-        	}
+        	String dbTypeName = impCollation.getTypename();
+        	DbType dbType = getDbType(dbTypeName);
+        	
+        	if ( dbType == null )
+        		continue;
         	
         	if ( !collationRepository.existsByCollationAndTypename(impCollation.getCollation(), dbType.getTypename()) ) {
-	        	LOGGER.debug(impCollation.toString());
 	        	
 	        	Collation col = new Collation();
 	        	
@@ -127,6 +137,22 @@ public class Setup {
         	}
         }
     }
+
+	/**
+	 * @param dbTypeName
+	 * @return
+	 */
+	private DbType getDbType(String dbTypeName) {
+		DbType dbType = typeCache.get(dbTypeName);
+		if ( dbType == null ) {
+			Optional<DbType> optionalDbType = dbTypeRepository.findByTypename(dbTypeName);
+			if ( optionalDbType.isPresent() ) {
+				dbType = optionalDbType.get();
+				typeCache.put(dbType.getTypename(), dbType);
+			}
+		}
+		return dbType;
+	}
 	
 	@Getter
 	@Setter
@@ -149,19 +175,13 @@ public class Setup {
         
         for (ImportTableformat impFormat : impFormats) {
         	
-        	DbType dbType = typeCache.get(impFormat.getTypename());
-        	if ( dbType == null ) {
-        		Optional<DbType> optionalDbType = dbTypeRepository.findByTypename(impFormat.getTypename());
-        		if ( optionalDbType.isPresent() ) {
-        			dbType = optionalDbType.get();
-        			typeCache.put(dbType.getTypename(), dbType);
-        		}
-        		else
-        			continue;
-        	}
+        	String dbTypeName = impFormat.getTypename();
+        	DbType dbType = getDbType(dbTypeName);
+        	
+        	if ( dbType == null )
+        		continue;
         	
         	if ( !formatRepository.existsByFormatnameAndTypename(impFormat.getFormatname(), dbType.getTypename()) ) {
-	        	LOGGER.debug(impFormat.toString());
 	        	
 	        	Tableformat format = new Tableformat();
 	        	
@@ -170,6 +190,87 @@ public class Setup {
 	        	format.setDescription(impFormat.getDescription());
 	        	
 	        	formatRepository.save(format);
+        	}
+        }
+    }
+	
+	@Getter
+	@Setter
+	@Data
+	static class ImportColtype {
+		private String type;
+		private String tgroup; 
+		private String description;
+		private String dbtype;
+	}
+	
+	/**
+	 * Initial load of the table format / engine table
+	 */
+	public void setUpColtypes() {
+	    
+    	CsvReader csvDataLoader = new CsvReader();
+    	
+    	
+        List<ImportColtype> impColtypes = csvDataLoader.loadObjectList(ImportColtype.class, AppConstants.COLTYPES_FILE, ';');
+        
+        for (ImportColtype impColtype : impColtypes) {
+        	
+        	String dbTypeName = impColtype.getDbtype();
+        	DbType dbType = getDbType(dbTypeName);
+        	
+        	if ( dbType == null )
+        		continue;
+        	
+        	if ( !coltypesRepository.existsByTypeAndDbtype(impColtype.getType(), dbType.getTypename()) ) {
+	        	
+	        	Coltype coltype = new Coltype();
+	        	
+	        	coltype.setType(impColtype.getType());
+	        	coltype.setDbtype(dbType.getTypename());
+	        	coltype.setDescription(impColtype.getDescription());
+	        	coltype.setTgroup(impColtype.getTgroup());
+	        	
+	        	coltypesRepository.save(coltype);
+        	}
+        }
+    }
+	
+	@Getter
+	@Setter
+	@Data
+	static class ImportColParam {
+		private String dbtype;
+		private String paramkey;
+		private String paramvalue;
+	}
+	
+	/**
+	 * Initial load of the table format / engine table
+	 */
+	public void setUpColParams() {
+	    
+    	CsvReader csvDataLoader = new CsvReader();
+    	
+    	
+        List<ImportColParam> importColParams = csvDataLoader.loadObjectList(ImportColParam.class, AppConstants.COLPARAMS_FILE, ';');
+        
+        for (ImportColParam importColParam : importColParams ) {
+        	
+        	String dbTypeName = importColParam.getDbtype();
+        	DbType dbType = getDbType(dbTypeName);
+        	
+        	if ( dbType == null )
+        		continue;
+        	
+        	if ( !columnParamRepository.existsByParamkeyAndParamvalueAndDbtype(importColParam.getParamkey(), importColParam.getParamvalue(), dbType.getTypename()) ) {
+	        	
+        		ColumnParameter cp = new ColumnParameter();
+        		cp.setDbtype(importColParam.getDbtype());
+        		cp.setParamkey(importColParam.getParamkey());
+        		cp.setParamvalue(importColParam.getParamvalue());
+        		
+        		columnParamRepository.save(cp);
         	}
         }
     }

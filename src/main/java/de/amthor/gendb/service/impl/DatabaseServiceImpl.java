@@ -15,7 +15,6 @@ import de.amthor.gendb.entity.Database;
 import de.amthor.gendb.entity.DbType;
 import de.amthor.gendb.entity.Release;
 import de.amthor.gendb.exception.AlreadyExistsException;
-import de.amthor.gendb.exception.ChildRecordExists;
 import de.amthor.gendb.exception.ResourceNotFoundException;
 import de.amthor.gendb.payload.CollationDto;
 import de.amthor.gendb.payload.CollationResponse;
@@ -148,10 +147,6 @@ public class DatabaseServiceImpl extends ServiceBase implements DatabaseService 
 		
 		Database db = databaseRepository.findById(databaseDto.getDbid()).orElseThrow(() -> new ResourceNotFoundException("Database", "DB Id", databaseDto.getDbid()));
 
-		// if the DB contains tables. we do not delete it!
-		if ( db.getTables().size() > 0 )
-			throw new ChildRecordExists("Table");
-		
 		databaseRepository.deleteById(db.getDbid());
 		
 	}

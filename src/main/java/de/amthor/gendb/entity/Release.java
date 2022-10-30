@@ -71,7 +71,9 @@ public class Release {
 	
 	private Date since;
 	
+	@Column(updatable = false, insertable = true)
 	private Date created;
+	
 	private Date updated;
 	
 	@PrePersist

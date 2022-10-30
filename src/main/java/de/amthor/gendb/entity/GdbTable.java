@@ -1,18 +1,24 @@
 package de.amthor.gendb.entity;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import de.amthor.gendb.exception.ChildRecordExists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -48,6 +54,10 @@ public class GdbTable {
 	/** enclosing database */
 	long databaseId;
 	
+	@OneToMany(fetch = FetchType.LAZY) // no cascade here!
+	@JoinColumn(name = "table_id", unique=false)
+	Set<Columns> columns;
+	
 	@OneToOne
 	/** the collation of this table */
 	Collation collation;
@@ -56,7 +66,9 @@ public class GdbTable {
 	/** format or "storage engine" */
 	Tableformat tableformat;
 	
+	@Column(updatable = false, insertable = true)
 	private Date created;
+	
 	private Date updated;
 	
 	@PrePersist
@@ -67,5 +79,14 @@ public class GdbTable {
     @PreUpdate
     protected void onUpdate() {
       updated = new Date();
+    }
+    
+    /**
+     * Check if we have existing columns
+     */
+    @PreRemove
+    protected void deleteTable() {
+    	if ( columns.size() > 0 )
+    		throw new ChildRecordExists("Column");
     }
 }

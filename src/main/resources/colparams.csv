@@ -1,0 +1,33 @@
+dbtype;paramkey;paramvalue
+MariaDB;default;value
+MariaDB;default;NULL
+MariaDB;default;CURRENT_TIMESTAMP
+MariaDB;attribute;BINARY
+MariaDB;attribute;UNSIGNED
+MariaDB;attribute;UNSIGNED ZEROFILL
+MariaDB;nullable;NULL
+MariaDB;nullable;NOT NULL
+MariaDB;index;PRIMARY
+MariaDB;index;UNIQUE
+MariaDB;index;INDEX
+MariaDB;index;FULLTEXT
+MariaDB;index;SPATIAL
+MariaDB;virtuality;VIRTUAL
+MariaDB;virtuality;PERSISTED
+MariaDB;virtuality;STORED
+MySQL;default;value
+MySQL;default;NULL
+MySQL;default;CURRENT_TIMESTAMP
+MySQL;attribute;BINARY
+MySQL;attribute;UNSIGNED
+MySQL;attribute;UNSIGNED ZEROFILL
+MySQL;nullable;NULL
+MySQL;nullable;NOT NULL
+MySQL;index;PRIMARY
+MySQL;index;UNIQUE
+MySQL;index;INDEX
+MySQL;index;FULLTEXT
+MySQL;index;SPATIAL
+MySQL;virtuality;VIRTUAL
+MySQL;virtuality;PERSISTED
+MySQL;virtuality;STORED

@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import de.amthor.gendb.entity.Project;
 import de.amthor.gendb.entity.Release;
 import de.amthor.gendb.entity.User;
-import de.amthor.gendb.exception.ChildRecordExists;
 import de.amthor.gendb.exception.ResourceNotFoundException;
 import de.amthor.gendb.payload.ProjectDto;
 import de.amthor.gendb.payload.ProjectResponse;
@@ -130,9 +129,6 @@ public class ProjectServiceImpl extends ServiceBase implements ProjectService {
 	public void deleteProjectById(long id) {
 		Project project = projectRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Project", "id", id));
 		
-		if ( project.getReleases().size() > 0 )
-			throw new ChildRecordExists("Releases");
-			
 		projectRepository.delete(project);
 	}
 
