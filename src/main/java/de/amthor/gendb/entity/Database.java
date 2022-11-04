@@ -17,8 +17,11 @@ import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Pattern.Flag;
 
 import de.amthor.gendb.exception.ChildRecordExists;
+import de.amthor.gendb.utils.AppConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -42,6 +45,7 @@ public class Database {
 	long dbid;
 	
 	@Column(name = "dbname", nullable = false)
+	@Pattern(regexp = AppConstants.SQL_NAME_CONSTRAINT, flags = Flag.UNICODE_CASE)
 	String dbname;
 	
 	@Column(name = "description", length = 5000)

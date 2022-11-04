@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,8 @@ import de.amthor.gendb.payload.PageableResponseDto;
  */
 public class PageableResponse {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(PageableResponse.class);
+	
 	private ModelMapper mapper;
 	private PageableResponseDto pageResponseDto;
 	private Page<?> responsePage;
@@ -167,7 +171,10 @@ public class PageableResponse {
 		Page<ENT> page = (Page<ENT>) this.responsePage;
         List<ENT> listOfEntities = page.getContent();
 
-        List<DTO> content = listOfEntities.stream().map(entity -> genericSimpleMapper(entity, dto)).collect(Collectors.toList());
+        List<DTO> content = listOfEntities.stream().map(entity -> { 
+        		LOGGER.debug("=================> " + entity.toString()); 
+        		return genericSimpleMapper(entity, dto); 
+        	}).collect(Collectors.toList());
 
         pageResponseDto.setElements(content);
         pageResponseDto.setPageNo(page.getNumber());

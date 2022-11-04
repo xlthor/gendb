@@ -11,7 +11,14 @@ import lombok.Data;
 public class CollationDto {
 
 	@ApiModelProperty(value = "Collation Id")
-	@JsonView({Views.Response.class, Views.TableUpdate.class, Views.TableCreate.class, Views.DatabaseCreate.class, Views.DatabaseUpdate.class, Views.DatabaseResponse.class})
+	@JsonView({Views.Response.class, 
+		Views.TableUpdate.class, 
+		Views.TableCreate.class, 
+		Views.DatabaseCreate.class, 
+		Views.DatabaseUpdate.class, 
+		Views.DatabaseResponse.class,  
+		Views.ColumnCreate.class, 
+		Views.ColumnUpdate.class})
 	long collationid;
 	
 	@ApiModelProperty(value = "Name of database type")

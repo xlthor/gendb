@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import de.amthor.gendb.payload.ColumnsDto;
 import de.amthor.gendb.payload.ColumnResponse;
+import de.amthor.gendb.payload.ColumnsDto;
 import de.amthor.gendb.payload.Views;
 import de.amthor.gendb.utils.AppConstants;
 import io.swagger.annotations.Api;
@@ -79,7 +79,7 @@ public interface ColumnOperations {
 		@PathVariable(value = "tableid") Long tableid,
 	    @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
 	    @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
-	    @RequestParam(value = "sortBy", defaultValue = "columnname", required = false) String sortBy,
+	    @RequestParam(value = "sortBy", defaultValue = "colname", required = false) String sortBy,
 	    @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir,
 	    Principal principal);
 

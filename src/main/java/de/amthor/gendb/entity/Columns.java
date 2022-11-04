@@ -12,7 +12,10 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Pattern.Flag;
 
+import de.amthor.gendb.utils.AppConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -27,7 +30,7 @@ import lombok.Setter;
 @Data
 @Entity
 @Table(	name = "gdb_column",
-		uniqueConstraints = {@UniqueConstraint(columnNames = {"colname", "tableid"})}
+		uniqueConstraints = {@UniqueConstraint(columnNames = {"colname", "table_id"})}
 )
 public class Columns { // need to take the plural here as "Column" is multiply reserved !
 	
@@ -35,7 +38,9 @@ public class Columns { // need to take the plural here as "Column" is multiply r
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	long columnid;
 	
+	@Pattern(regexp = AppConstants.SQL_NAME_CONSTRAINT, flags = Flag.UNICODE_CASE)
 	private String colname;
+	
 	private String description;
 	private long length;
 	private String defaultValues;
@@ -53,7 +58,7 @@ public class Columns { // need to take the plural here as "Column" is multiply r
 	@OneToOne
 	Collation collation;
 	
-	@Column(nullable = false, updatable = false, insertable = true)
+	@Column(name = "table_id", nullable = false, updatable = false, insertable = true)
 	/** enclosing table */
 	long tableid;
 	

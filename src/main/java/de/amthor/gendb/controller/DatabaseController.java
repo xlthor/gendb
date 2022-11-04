@@ -76,7 +76,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProjectController.c
 	}
 
 	/**
-	 * If the project of this database belongs to this user, it will be returned. Otherwise an exception is thrown.
+	 * If the project of this database is owned by this user, it will be returned. Otherwise an exception is thrown.
 	 * 
 	 * @param databaseDto
 	 * @param principal

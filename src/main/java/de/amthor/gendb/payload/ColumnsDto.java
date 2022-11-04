@@ -4,8 +4,6 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import de.amthor.gendb.entity.Collation;
-import de.amthor.gendb.entity.Coltype;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -19,7 +17,7 @@ public class ColumnsDto {
 	long columnid;
 	
 	@JsonView({Views.Response.class, Views.ColumnResponse.class, Views.ColumnCreate.class, Views.ColumnUpdate.class})
-	@ApiModelProperty(value = "Unique Table Name")
+	@ApiModelProperty(value = "Unique Column  Name")
 	private String colname;
 	
 	@JsonView({Views.Response.class, Views.ColumnResponse.class, Views.ColumnCreate.class, Views.ColumnUpdate.class})
@@ -64,11 +62,11 @@ public class ColumnsDto {
 	
 	@JsonView({Views.Response.class, Views.ColumnResponse.class, Views.ColumnCreate.class, Views.ColumnUpdate.class})
 	@ApiModelProperty(value = "Type of column")
-	private Coltype coltype;
+	private ColtypeDto coltype;
 	
 	@JsonView({Views.Response.class, Views.ColumnResponse.class, Views.ColumnCreate.class, Views.ColumnUpdate.class})
 	@ApiModelProperty(value = "Collation")
-	Collation collation;
+	CollationDto collation;
 	
 	@JsonView({Views.Response.class, Views.ColumnResponse.class, Views.ColumnCreate.class})
 	@ApiModelProperty(value = "Enclosing table")

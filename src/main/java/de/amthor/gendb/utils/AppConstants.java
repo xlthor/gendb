@@ -22,4 +22,10 @@ public class AppConstants {
 	public static final String COLTYPES_FILE = "coltypes.csv";
 	public static final String COLPARAMS_FILE = "colparams.csv";
 	
+	/**
+	 * REGEX for proper SQL names for columns, tables and databases 
+	 */
+	public static final String SQL_NAME_CONSTRAINT = "^[a-zA-Z_][a-zA-Z0-9_]*";
+	
+	
 }

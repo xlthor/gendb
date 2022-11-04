@@ -35,7 +35,8 @@ import lombok.Setter;
  * 
  */
 @Component
-public class Setup {
+public class Setup 
+{
     
 	private static final Logger LOGGER = LoggerFactory.getLogger(Setup.class);
 	

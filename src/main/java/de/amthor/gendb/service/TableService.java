@@ -26,7 +26,7 @@ public interface TableService {
 	Tableformat getTableFormat(long formatid);
 
 	Optional<TableDto> getTable(@Valid TableDto tableDto);
-
+	
 	TableDto updateTable(GdbTable table);
 
 	Optional<TableDto> getTable(Long tableId);

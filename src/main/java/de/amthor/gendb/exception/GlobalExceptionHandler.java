@@ -1,25 +1,29 @@
 package de.amthor.gendb.exception;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import de.amthor.gendb.payload.ErrorDetails;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 @ControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler { //extends ResponseEntityExceptionHandler {
 
     // handle specific exceptions
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -76,7 +80,32 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
     }
     
-    @Override
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorDetails> handleNotSupportedMethodException(HttpRequestMethodNotSupportedException exception, WebRequest webRequest) {
+    	ErrorDetails errorDetails = new ErrorDetails(1009, new Date(), exception.getMessage(), webRequest.getDescription(false));
+		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+    
+    /**
+     * Mainly catches the @Pattern... etc annotation validation exceptions
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex)  
+	{
+		List<ErrorDetails> errors = new ArrayList<>();
+		ex.getConstraintViolations().forEach((error) -> {
+			String message = error.getMessage();
+			String fieldName =  error.getPropertyPath().toString();
+			ErrorDetails errorDetails = new ErrorDetails(1010, new Date(), message, fieldName);
+			errors.add(errorDetails);
+		});
+
+		return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+    
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
