@@ -29,6 +29,10 @@ public class ColumnsDto {
 	private long length;
 	
 	@JsonView({Views.Response.class, Views.ColumnResponse.class, Views.ColumnCreate.class, Views.ColumnUpdate.class})
+	@ApiModelProperty(value = "Precision for numeric data types")
+	private long precision;
+	
+	@JsonView({Views.Response.class, Views.ColumnResponse.class, Views.ColumnCreate.class, Views.ColumnUpdate.class})
 	@ApiModelProperty(value = "Default Value if default type is set accordingly")
 	private String defaultValues;
 	

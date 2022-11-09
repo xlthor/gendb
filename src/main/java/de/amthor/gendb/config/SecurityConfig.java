@@ -46,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -64,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/webjars/**").permitAll()
-                
+
                 // seed data, no need to protect
                 .antMatchers("/api/v1/databases/types").permitAll()
                 .antMatchers("/api/v1/databases/types/*").permitAll()

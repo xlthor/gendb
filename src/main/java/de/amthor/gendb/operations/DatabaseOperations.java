@@ -48,7 +48,8 @@ public interface DatabaseOperations {
 			@JsonView(Views.DatabaseCreate.class)
 			DatabaseDto databaseDto, 
 			Principal principal);
-
+	
+	
 	/**
 	 * Get database with id (if the according project belongs to user).
 	 * 

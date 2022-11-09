@@ -1,6 +1,7 @@
 package de.amthor.gendb.payload;
 
 import java.util.Date;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -25,6 +26,10 @@ public class TableDto {
 	@JsonView({Views.Response.class, Views.TableCreate.class, Views.TableUpdate.class})
 	@ApiModelProperty(value = "Table description or comment")
 	private String description;
+	
+	@JsonView({Views.Response.class})
+	@ApiModelProperty(value = "Column definitions")
+	Set<ColumnsDto> columns;
 	
 	/** enclosing database */
 	@JsonView({Views.Response.class, Views.TableCreate.class, Views.TableUpdate.class})

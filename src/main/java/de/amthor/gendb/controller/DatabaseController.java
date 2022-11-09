@@ -167,5 +167,4 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ProjectController.c
 		return new ResponseEntity<>(dbTypeDto, HttpStatus.OK);
 	}
 
-
 }

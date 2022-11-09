@@ -15,6 +15,7 @@ public class AppConstants {
     public static final String DATABASES = "databases";
     public static final String TABLES = "tables";
     public static final String COLUMNS = "columns";
+    public static final String CODE = "sql";
     
     public static final String DBTYPES_FILE = "dbtypes.csv";
 	public static final String COLLATIONS_FILE = "collations.csv";
@@ -26,6 +27,7 @@ public class AppConstants {
 	 * REGEX for proper SQL names for columns, tables and databases 
 	 */
 	public static final String SQL_NAME_CONSTRAINT = "^[a-zA-Z_][a-zA-Z0-9_]*";
+	
 	
 	
 }

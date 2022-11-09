@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.validation.ConstraintViolationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,8 @@ import de.amthor.gendb.payload.ErrorDetails;
 @ControllerAdvice
 public class GlobalExceptionHandler { //extends ResponseEntityExceptionHandler {
 
+	public static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+	
     // handle specific exceptions
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException exception,
@@ -105,6 +109,12 @@ public class GlobalExceptionHandler { //extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
     
+    @ExceptionHandler(GeneratorException.class)
+    public ResponseEntity<ErrorDetails> handleGeneratorException(GeneratorException exception, WebRequest webRequest) {
+    	ErrorDetails errorDetails = new ErrorDetails(1011, new Date(), exception.getMessage(), webRequest.getDescription(false));
+		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+    
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
@@ -124,8 +134,10 @@ public class GlobalExceptionHandler { //extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDetails> handleGlobalException(Exception exception,
                                                                WebRequest webRequest){
-        ErrorDetails errorDetails = new ErrorDetails(1000, new Date(), exception.getMessage(),
-                webRequest.getDescription(false));
+        ErrorDetails errorDetails = new ErrorDetails(1000, new Date(), exception.getMessage(), webRequest.getDescription(false));
+        
+        LOGGER.error(exception.getMessage(), exception);
+        
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

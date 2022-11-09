@@ -15,6 +15,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Pattern.Flag;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import de.amthor.gendb.utils.AppConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,14 +44,29 @@ public class Columns { // need to take the plural here as "Column" is multiply r
 	private String colname;
 	
 	private String description;
+	
+	@Column(nullable = false) 
+	@ColumnDefault(value = "0")
 	private long length;
+	
+	@Column(name = "iprecision", nullable = false) // "precision" is a reserved word
+	@ColumnDefault(value = "0") 
+	private long precision;
+	
 	private String defaultValues;
+	
 	private String defaultType;
+	
 	private String attributes;
+	
 	private Boolean nullable;
+	
 	private String indexType;
+	
 	private Boolean autoincrement;
+	
 	private String serial;
+
 	private String virtuality;
 	
 	@OneToOne

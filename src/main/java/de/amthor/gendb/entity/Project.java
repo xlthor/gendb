@@ -38,7 +38,7 @@ public class Project {
 	private String name;
 	private String description;
 	
-	@ManyToMany(fetch = FetchType.EAGER ) // no cascade here, as otherwise users etc are deleted as well!
+	@ManyToMany(fetch = FetchType.LAZY ) // no cascade here, as otherwise users etc are deleted as well!
 	@JoinTable(name = "project_users",
 			joinColumns = @JoinColumn(name = "project_id", referencedColumnName= "id"),
 			inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName= "id"))
