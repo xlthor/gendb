@@ -1,0 +1,3596 @@
+{
+	"openapi": "3.0.3",
+	"info": {
+		"title": "gendb - Database Generation and Documentation APIs",
+		"description": "gendb - Database Generation and Documentation - API Documentation",
+		"termsOfService": "Terms of service",
+		"contact": {
+			"name": "Axel Amthor",
+			"url": "https://github.com/xlthor/gendb",
+			"email": "axel@amthor.de"
+		},
+		"license": {
+			"name": "Attribution-NonCommercial 4.0 International (CC BY-NC 4.0) ",
+			"url": "https://github.com/xlthor/gendb/blob/main/LICENSE.md"
+		},
+		"version": "0.1"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:8080"
+		},
+		{
+			"url": "http://neuromancer.amthor.de:8080"
+		}
+	],
+	"tags": [
+		{
+			"name": "auth-controller",
+			"description": "Auth Controller"
+		},
+		{
+			"name": "basic-error-controller",
+			"description": "Basic Error Controller"
+		},
+		{
+			"name": "column-controller",
+			"description": "Column Controller"
+		},
+		{
+			"name": "database-controller",
+			"description": "Database Controller"
+		},
+		{
+			"name": "ddl-controller",
+			"description": "Ddl Controller"
+		},
+		{
+			"name": "project-controller",
+			"description": "Project Controller"
+		},
+		{
+			"name": "release-controller",
+			"description": "Release Controller"
+		},
+		{
+			"name": "table-controller",
+			"description": "Table Controller"
+		}
+	],
+	"paths": {
+		"/api/v1/auth/signin": {
+			"post": {
+				"tags": [
+					"auth-controller"
+				],
+				"summary": "REST API to Signin or Login user to gendb app",
+				"operationId": "authenticateUserUsingPOST",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginDto"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/JWTAuthResponse"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/auth/signup": {
+			"post": {
+				"tags": [
+					"auth-controller"
+				],
+				"summary": "REST API to Register or Signup a new user to gendb app",
+				"operationId": "registerUserUsingPOST",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SignUpDto"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/error": {
+			"get": {
+				"tags": [
+					"basic-error-controller"
+				],
+				"summary": "errorHtml",
+				"operationId": "errorHtmlUsingGET",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"text/html": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelAndView"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"put": {
+				"tags": [
+					"basic-error-controller"
+				],
+				"summary": "errorHtml",
+				"operationId": "errorHtmlUsingPUT",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"text/html": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelAndView"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"post": {
+				"tags": [
+					"basic-error-controller"
+				],
+				"summary": "errorHtml",
+				"operationId": "errorHtmlUsingPOST",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"text/html": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelAndView"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"delete": {
+				"tags": [
+					"basic-error-controller"
+				],
+				"summary": "errorHtml",
+				"operationId": "errorHtmlUsingDELETE",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"text/html": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelAndView"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"options": {
+				"tags": [
+					"basic-error-controller"
+				],
+				"summary": "errorHtml",
+				"operationId": "errorHtmlUsingOPTIONS",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"text/html": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelAndView"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"head": {
+				"tags": [
+					"basic-error-controller"
+				],
+				"summary": "errorHtml",
+				"operationId": "errorHtmlUsingHEAD",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"text/html": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelAndView"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"patch": {
+				"tags": [
+					"basic-error-controller"
+				],
+				"summary": "errorHtml",
+				"operationId": "errorHtmlUsingPATCH",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"text/html": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelAndView"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"trace": {
+				"tags": [
+					"basic-error-controller"
+				],
+				"summary": "errorHtml",
+				"operationId": "errorHtmlUsingTRACE",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"text/html": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelAndView"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/columns": {
+			"post": {
+				"tags": [
+					"column-controller"
+				],
+				"summary": "Create a new column within a table",
+				"operationId": "createColumnUsingPOST",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ColumnsDtoColumnCreateView"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/ColumnsDtoResponseView"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/columns/table/{tableid}": {
+			"get": {
+				"tags": [
+					"column-controller"
+				],
+				"summary": "Get All columns within a table",
+				"operationId": "getAllColumnsUsingGET",
+				"parameters": [
+					{
+						"name": "tableid",
+						"in": "path",
+						"description": "tableid",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "pageNo",
+						"in": "query",
+						"description": "pageNo",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "pageSize",
+						"in": "query",
+						"description": "pageSize",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "sortBy",
+						"in": "query",
+						"description": "sortBy",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortDir",
+						"in": "query",
+						"description": "sortDir",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/ColumnResponseResponseView"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/columns/{id}": {
+			"get": {
+				"tags": [
+					"column-controller"
+				],
+				"summary": "Get column by ID.",
+				"operationId": "getColumnByIdUsingGET",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/ColumnsDtoResponseView"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"put": {
+				"tags": [
+					"column-controller"
+				],
+				"summary": "Update column by ID",
+				"operationId": "updateColumnUsingPUT",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ColumnsDtoColumnUpdateView"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/ColumnsDtoResponseView"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"delete": {
+				"tags": [
+					"column-controller"
+				],
+				"summary": "Delete column by ID",
+				"operationId": "deleteColumnUsingDELETE",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/databases": {
+			"put": {
+				"tags": [
+					"database-controller"
+				],
+				"summary": "Update Database of current user by ID",
+				"operationId": "updateDatabaseUsingPUT",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/DatabaseDtoDatabaseUpdateView"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/DatabaseDtoDatabaseResponseView"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"post": {
+				"tags": [
+					"database-controller"
+				],
+				"summary": "Create a new database in the given release",
+				"operationId": "createDatabaseUsingPOST",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/DatabaseDtoDatabaseCreateView"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/DatabaseDtoDatabaseResponseView"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/databases/release/{releaseid}": {
+			"get": {
+				"tags": [
+					"database-controller"
+				],
+				"summary": "Get All Databases of the current user for particular release",
+				"operationId": "getAllDatabasesUsingGET",
+				"parameters": [
+					{
+						"name": "releaseid",
+						"in": "path",
+						"description": "releaseid",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "pageNo",
+						"in": "query",
+						"description": "pageNo",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "pageSize",
+						"in": "query",
+						"description": "pageSize",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "sortBy",
+						"in": "query",
+						"description": "sortBy",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortDir",
+						"in": "query",
+						"description": "sortDir",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/DatabaseResponseDatabaseResponseView"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/databases/types": {
+			"get": {
+				"tags": [
+					"database-controller"
+				],
+				"summary": "Get all database types",
+				"operationId": "getDatabaseTypesUsingGET",
+				"parameters": [
+					{
+						"name": "pageNo",
+						"in": "query",
+						"description": "pageNo",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "pageSize",
+						"in": "query",
+						"description": "pageSize",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "sortBy",
+						"in": "query",
+						"description": "sortBy",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortDir",
+						"in": "query",
+						"description": "sortDir",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/DbTypeResponseDatabaseResponseView"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/databases/types/{dbtypeid}": {
+			"get": {
+				"tags": [
+					"database-controller"
+				],
+				"summary": "Get a particular database by its id.",
+				"operationId": "getDbTypeUsingGET",
+				"parameters": [
+					{
+						"name": "dbtypeid",
+						"in": "path",
+						"description": "dbtypeid",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/DbTypeDtoDatabaseResponseView"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/databases/types/{dbtypeid}/collations": {
+			"get": {
+				"tags": [
+					"database-controller"
+				],
+				"summary": "Get all collations of a particular database type.",
+				"operationId": "getDbTypeCollationsUsingGET",
+				"parameters": [
+					{
+						"name": "dbtypeid",
+						"in": "path",
+						"description": "dbtypeid",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "pageNo",
+						"in": "query",
+						"description": "pageNo",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "pageSize",
+						"in": "query",
+						"description": "pageSize",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "sortBy",
+						"in": "query",
+						"description": "sortBy",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortDir",
+						"in": "query",
+						"description": "sortDir",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/CollationResponseDatabaseResponseView"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/databases/{id}": {
+			"get": {
+				"tags": [
+					"database-controller"
+				],
+				"summary": "Get database with id (if the according project belongs to user).",
+				"operationId": "getDatabaseByIdUsingGET",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/DatabaseDtoDatabaseResponseView"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"delete": {
+				"tags": [
+					"database-controller"
+				],
+				"summary": "Delete Database of current user by ID",
+				"operationId": "deleteDatabaseUsingDELETE",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/sql/{scope}/{id}": {
+			"get": {
+				"tags": [
+					"ddl-controller"
+				],
+				"summary": "Generate DB DDL.",
+				"operationId": "getElementSqlUsingGET",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "scope",
+						"in": "path",
+						"description": "scope",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "string",
+							"enum": [
+								"DATABASE",
+								"RELEASE",
+								"TABLE"
+							]
+						}
+					},
+					{
+						"name": "comments",
+						"in": "query",
+						"description": "comments",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "boolean"
+						}
+					},
+					{
+						"name": "transaction",
+						"in": "query",
+						"description": "transaction",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "boolean"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							},
+							"application/sql": {
+								"schema": {
+									"type": "string"
+								}
+							},
+							"text/plain": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/projects": {
+			"get": {
+				"tags": [
+					"project-controller"
+				],
+				"summary": "Get All Projects of the current user",
+				"operationId": "getAllProjectsUsingGET",
+				"parameters": [
+					{
+						"name": "pageNo",
+						"in": "query",
+						"description": "pageNo",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "pageSize",
+						"in": "query",
+						"description": "pageSize",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "sortBy",
+						"in": "query",
+						"description": "sortBy",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortDir",
+						"in": "query",
+						"description": "sortDir",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/ProjectResponseResponseView"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"post": {
+				"tags": [
+					"project-controller"
+				],
+				"summary": "Create new Project for the current user",
+				"operationId": "createProjectUsingPOST",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ProjectDtoCreateView"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/ProjectDtoResponseView"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/projects/{id}": {
+			"get": {
+				"tags": [
+					"project-controller"
+				],
+				"summary": "Get project of current user by ID.",
+				"operationId": "getProjectByIdUsingGET",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/ProjectDtoResponseView"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"put": {
+				"tags": [
+					"project-controller"
+				],
+				"summary": "Update Project of current user by ID",
+				"operationId": "updateProjectUsingPUT",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ProjectDtoParentUpdateView"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/ProjectDtoResponseView"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"delete": {
+				"tags": [
+					"project-controller"
+				],
+				"summary": "Delete Project of current user by ID",
+				"operationId": "deleteProjectUsingDELETE",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/releases": {
+			"put": {
+				"tags": [
+					"release-controller"
+				],
+				"summary": "Update Release of current user by ID",
+				"operationId": "updateReleaseUsingPUT",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ReleaseDtoReleaseUpdateView"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/ReleaseDtoResponseView"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"post": {
+				"tags": [
+					"release-controller"
+				],
+				"summary": "Create a new release in the given project",
+				"operationId": "createReleaseUsingPOST",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ReleaseDtoCreateView"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/ReleaseDtoResponseView"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/releases/project/{projectid}": {
+			"get": {
+				"tags": [
+					"release-controller"
+				],
+				"summary": "Get All Releases of the current user for particular project",
+				"operationId": "getAllReleasesUsingGET",
+				"parameters": [
+					{
+						"name": "projectid",
+						"in": "path",
+						"description": "projectid",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "pageNo",
+						"in": "query",
+						"description": "pageNo",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "pageSize",
+						"in": "query",
+						"description": "pageSize",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "sortBy",
+						"in": "query",
+						"description": "sortBy",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortDir",
+						"in": "query",
+						"description": "sortDir",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/ReleaseResponseResponseView"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/releases/{id}": {
+			"get": {
+				"tags": [
+					"release-controller"
+				],
+				"summary": "Get release with id (if the according project belongs to user).",
+				"operationId": "getReleaseByIdUsingGET",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/ReleaseDtoResponseView"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"delete": {
+				"tags": [
+					"release-controller"
+				],
+				"summary": "Delete Release of current user by ID",
+				"operationId": "deleteReleaseUsingDELETE",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/tables": {
+			"post": {
+				"tags": [
+					"table-controller"
+				],
+				"summary": "Create new table within a database",
+				"operationId": "createTableUsingPOST",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TableDtoTableCreateView"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/TableDtoResponseView"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/tables/database/{dbid}": {
+			"get": {
+				"tags": [
+					"table-controller"
+				],
+				"summary": "Get All tables within a database",
+				"operationId": "getAllTablesUsingGET",
+				"parameters": [
+					{
+						"name": "dbid",
+						"in": "path",
+						"description": "dbid",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					},
+					{
+						"name": "pageNo",
+						"in": "query",
+						"description": "pageNo",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "pageSize",
+						"in": "query",
+						"description": "pageSize",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "sortBy",
+						"in": "query",
+						"description": "sortBy",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "sortDir",
+						"in": "query",
+						"description": "sortDir",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/TableResponseResponseView"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		},
+		"/api/v1/tables/{id}": {
+			"get": {
+				"tags": [
+					"table-controller"
+				],
+				"summary": "Get table by ID.",
+				"operationId": "getTableByIdUsingGET",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/TableDtoResponseView"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"put": {
+				"tags": [
+					"table-controller"
+				],
+				"summary": "Update table by ID",
+				"operationId": "updateTableUsingPUT",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TableDtoTableUpdateView"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/TableDtoResponseView"
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			},
+			"delete": {
+				"tags": [
+					"table-controller"
+				],
+				"summary": "Delete table by ID",
+				"operationId": "deleteTableUsingDELETE",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "id",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "integer",
+							"format": "int64"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					}
+				},
+				"security": [
+					{
+						"JWT Token": [
+							"global"
+						]
+					}
+				]
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"CollationDtoColumnCreateView": {
+				"title": "CollationDtoColumnCreateView",
+				"type": "object",
+				"properties": {
+					"collationid": {
+						"type": "integer",
+						"description": "Collation Id",
+						"format": "int64"
+					}
+				}
+			},
+			"CollationDtoColumnUpdateView": {
+				"title": "CollationDtoColumnUpdateView",
+				"type": "object",
+				"properties": {
+					"collationid": {
+						"type": "integer",
+						"description": "Collation Id",
+						"format": "int64"
+					}
+				}
+			},
+			"CollationDtoDatabaseCreateView": {
+				"title": "CollationDtoDatabaseCreateView",
+				"type": "object",
+				"properties": {
+					"collationid": {
+						"type": "integer",
+						"description": "Collation Id",
+						"format": "int64"
+					}
+				}
+			},
+			"CollationDtoDatabaseResponseView": {
+				"title": "CollationDtoDatabaseResponseView",
+				"type": "object",
+				"properties": {
+					"characterset": {
+						"type": "string",
+						"description": "Enclosed character set"
+					},
+					"collation": {
+						"type": "string",
+						"description": "Name of collation"
+					},
+					"collationid": {
+						"type": "integer",
+						"description": "Collation Id",
+						"format": "int64"
+					},
+					"typename": {
+						"type": "string",
+						"description": "Name of database type"
+					}
+				}
+			},
+			"CollationDtoDatabaseUpdateView": {
+				"title": "CollationDtoDatabaseUpdateView",
+				"type": "object",
+				"properties": {
+					"collationid": {
+						"type": "integer",
+						"description": "Collation Id",
+						"format": "int64"
+					}
+				}
+			},
+			"CollationDtoResponseView": {
+				"title": "CollationDtoResponseView",
+				"type": "object",
+				"properties": {
+					"characterset": {
+						"type": "string",
+						"description": "Enclosed character set"
+					},
+					"collation": {
+						"type": "string",
+						"description": "Name of collation"
+					},
+					"collationid": {
+						"type": "integer",
+						"description": "Collation Id",
+						"format": "int64"
+					},
+					"typename": {
+						"type": "string",
+						"description": "Name of database type"
+					}
+				}
+			},
+			"CollationDtoTableCreateView": {
+				"title": "CollationDtoTableCreateView",
+				"type": "object",
+				"properties": {
+					"collationid": {
+						"type": "integer",
+						"description": "Collation Id",
+						"format": "int64"
+					}
+				}
+			},
+			"CollationDtoTableUpdateView": {
+				"title": "CollationDtoTableUpdateView",
+				"type": "object",
+				"properties": {
+					"collationid": {
+						"type": "integer",
+						"description": "Collation Id",
+						"format": "int64"
+					}
+				}
+			},
+			"CollationResponseDatabaseResponseView": {
+				"title": "CollationResponseDatabaseResponseView",
+				"type": "object",
+				"properties": {
+					"collations": {
+						"type": "array",
+						"items": {
+							"type": "object"
+						}
+					},
+					"last": {
+						"type": "boolean"
+					},
+					"pageNo": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"pageSize": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"totalElements": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalPages": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"ColtypeDtoColumnCreateView": {
+				"title": "ColtypeDtoColumnCreateView",
+				"type": "object",
+				"properties": {
+					"coltypeid": {
+						"type": "integer",
+						"description": "Column Type Id",
+						"format": "int64"
+					}
+				}
+			},
+			"ColtypeDtoColumnUpdateView": {
+				"title": "ColtypeDtoColumnUpdateView",
+				"type": "object",
+				"properties": {
+					"coltypeid": {
+						"type": "integer",
+						"description": "Column Type Id",
+						"format": "int64"
+					}
+				}
+			},
+			"ColtypeDtoResponseView": {
+				"title": "ColtypeDtoResponseView",
+				"type": "object",
+				"properties": {
+					"coltypeid": {
+						"type": "integer",
+						"description": "Column Type Id",
+						"format": "int64"
+					},
+					"dbtype": {
+						"type": "string",
+						"description": "Database Type"
+					},
+					"description": {
+						"type": "string",
+						"description": "Column Type Description"
+					},
+					"tgroup": {
+						"type": "string",
+						"description": "Column Type Group"
+					},
+					"type": {
+						"type": "string",
+						"description": "Column Type Name"
+					}
+				}
+			},
+			"ColumnResponseResponseView": {
+				"title": "ColumnResponseResponseView",
+				"type": "object",
+				"properties": {
+					"columns": {
+						"type": "array",
+						"items": {
+							"type": "object"
+						}
+					},
+					"last": {
+						"type": "boolean"
+					},
+					"pageNo": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"pageSize": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"totalElements": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalPages": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"ColumnsDtoColumnCreateView": {
+				"title": "ColumnsDtoColumnCreateView",
+				"type": "object",
+				"properties": {
+					"attributes": {
+						"type": "string",
+						"description": "Attributes"
+					},
+					"autoincrement": {
+						"type": "boolean",
+						"description": "Auto increment column",
+						"example": false
+					},
+					"collation": {
+						"description": "Collation",
+						"$ref": "#/components/schemas/CollationDtoColumnCreateView"
+					},
+					"colname": {
+						"type": "string",
+						"description": "Unique Column  Name"
+					},
+					"coltype": {
+						"description": "Type of column",
+						"$ref": "#/components/schemas/ColtypeDtoColumnCreateView"
+					},
+					"defaultType": {
+						"type": "string",
+						"description": "Type of Default constraint"
+					},
+					"defaultValues": {
+						"type": "string",
+						"description": "Default Value if default type is set accordingly"
+					},
+					"description": {
+						"type": "string",
+						"description": "Description / Comment"
+					},
+					"indexType": {
+						"type": "string",
+						"description": "Type of index"
+					},
+					"length": {
+						"type": "integer",
+						"description": "Field length",
+						"format": "int64"
+					},
+					"nullable": {
+						"type": "boolean",
+						"description": "Is Column nullable",
+						"example": false
+					},
+					"precision": {
+						"type": "integer",
+						"description": "Precision for numeric data types",
+						"format": "int64"
+					},
+					"serial": {
+						"type": "string",
+						"description": "Serial reference"
+					},
+					"tableid": {
+						"type": "integer",
+						"description": "Enclosing table",
+						"format": "int64"
+					},
+					"virtuality": {
+						"type": "string",
+						"description": "Virtuality"
+					}
+				}
+			},
+			"ColumnsDtoColumnUpdateView": {
+				"title": "ColumnsDtoColumnUpdateView",
+				"type": "object",
+				"properties": {
+					"attributes": {
+						"type": "string",
+						"description": "Attributes"
+					},
+					"autoincrement": {
+						"type": "boolean",
+						"description": "Auto increment column",
+						"example": false
+					},
+					"collation": {
+						"description": "Collation",
+						"$ref": "#/components/schemas/CollationDtoColumnUpdateView"
+					},
+					"colname": {
+						"type": "string",
+						"description": "Unique Column  Name"
+					},
+					"coltype": {
+						"description": "Type of column",
+						"$ref": "#/components/schemas/ColtypeDtoColumnUpdateView"
+					},
+					"defaultType": {
+						"type": "string",
+						"description": "Type of Default constraint"
+					},
+					"defaultValues": {
+						"type": "string",
+						"description": "Default Value if default type is set accordingly"
+					},
+					"description": {
+						"type": "string",
+						"description": "Description / Comment"
+					},
+					"indexType": {
+						"type": "string",
+						"description": "Type of index"
+					},
+					"length": {
+						"type": "integer",
+						"description": "Field length",
+						"format": "int64"
+					},
+					"nullable": {
+						"type": "boolean",
+						"description": "Is Column nullable",
+						"example": false
+					},
+					"precision": {
+						"type": "integer",
+						"description": "Precision for numeric data types",
+						"format": "int64"
+					},
+					"serial": {
+						"type": "string",
+						"description": "Serial reference"
+					},
+					"tableid": {
+						"type": "integer",
+						"description": "Enclosing table",
+						"format": "int64"
+					},
+					"virtuality": {
+						"type": "string",
+						"description": "Virtuality"
+					}
+				}
+			},
+			"ColumnsDtoResponseView": {
+				"title": "ColumnsDtoResponseView",
+				"type": "object",
+				"properties": {
+					"attributes": {
+						"type": "string",
+						"description": "Attributes"
+					},
+					"autoincrement": {
+						"type": "boolean",
+						"description": "Auto increment column",
+						"example": false
+					},
+					"collation": {
+						"description": "Collation",
+						"$ref": "#/components/schemas/CollationDtoResponseView"
+					},
+					"colname": {
+						"type": "string",
+						"description": "Unique Column  Name"
+					},
+					"coltype": {
+						"description": "Type of column",
+						"$ref": "#/components/schemas/ColtypeDtoResponseView"
+					},
+					"columnid": {
+						"type": "integer",
+						"description": "Column Id",
+						"format": "int64"
+					},
+					"created": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"defaultType": {
+						"type": "string",
+						"description": "Type of Default constraint"
+					},
+					"defaultValues": {
+						"type": "string",
+						"description": "Default Value if default type is set accordingly"
+					},
+					"description": {
+						"type": "string",
+						"description": "Description / Comment"
+					},
+					"indexType": {
+						"type": "string",
+						"description": "Type of index"
+					},
+					"length": {
+						"type": "integer",
+						"description": "Field length",
+						"format": "int64"
+					},
+					"nullable": {
+						"type": "boolean",
+						"description": "Is Column nullable",
+						"example": false
+					},
+					"precision": {
+						"type": "integer",
+						"description": "Precision for numeric data types",
+						"format": "int64"
+					},
+					"serial": {
+						"type": "string",
+						"description": "Serial reference"
+					},
+					"tableid": {
+						"type": "integer",
+						"description": "Enclosing table",
+						"format": "int64"
+					},
+					"updated": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"virtuality": {
+						"type": "string",
+						"description": "Virtuality"
+					}
+				}
+			},
+			"DatabaseDtoDatabaseCreateView": {
+				"title": "DatabaseDtoDatabaseCreateView",
+				"type": "object",
+				"properties": {
+					"collation": {
+						"description": "Collation and charset of this database",
+						"$ref": "#/components/schemas/CollationDtoDatabaseCreateView"
+					},
+					"dbType": {
+						"description": "Database Type",
+						"$ref": "#/components/schemas/DbTypeDtoDatabaseCreateView"
+					},
+					"dbname": {
+						"type": "string",
+						"description": "Database Name"
+					},
+					"description": {
+						"type": "string",
+						"description": "Database Description"
+					},
+					"releaseId": {
+						"type": "integer",
+						"description": "Release Id",
+						"format": "int64"
+					}
+				}
+			},
+			"DatabaseDtoDatabaseResponseView": {
+				"title": "DatabaseDtoDatabaseResponseView",
+				"type": "object",
+				"properties": {
+					"collation": {
+						"description": "Collation and charset of this database",
+						"$ref": "#/components/schemas/CollationDtoDatabaseResponseView"
+					},
+					"created": {
+						"type": "string",
+						"description": "Release creation date",
+						"format": "date-time"
+					},
+					"dbType": {
+						"description": "Database Type",
+						"$ref": "#/components/schemas/DbTypeDtoDatabaseResponseView"
+					},
+					"dbid": {
+						"type": "integer",
+						"description": "Database Id",
+						"format": "int64"
+					},
+					"dbname": {
+						"type": "string",
+						"description": "Database Name"
+					},
+					"description": {
+						"type": "string",
+						"description": "Database Description"
+					},
+					"releaseId": {
+						"type": "integer",
+						"description": "Release Id",
+						"format": "int64"
+					},
+					"tables": {
+						"uniqueItems": true,
+						"type": "array",
+						"description": "Database Tables",
+						"items": {
+							"$ref": "#/components/schemas/TableDtoDatabaseResponseView"
+						}
+					},
+					"updated": {
+						"type": "string",
+						"description": "Release last change date",
+						"format": "date-time"
+					}
+				}
+			},
+			"DatabaseDtoDatabaseUpdateView": {
+				"title": "DatabaseDtoDatabaseUpdateView",
+				"type": "object",
+				"properties": {
+					"collation": {
+						"description": "Collation and charset of this database",
+						"$ref": "#/components/schemas/CollationDtoDatabaseUpdateView"
+					},
+					"dbType": {
+						"description": "Database Type",
+						"$ref": "#/components/schemas/DbTypeDtoDatabaseUpdateView"
+					},
+					"dbid": {
+						"type": "integer",
+						"description": "Database Id",
+						"format": "int64"
+					},
+					"dbname": {
+						"type": "string",
+						"description": "Database Name"
+					},
+					"description": {
+						"type": "string",
+						"description": "Database Description"
+					},
+					"releaseId": {
+						"type": "integer",
+						"description": "Release Id",
+						"format": "int64"
+					}
+				}
+			},
+			"DatabaseDtoReleaseUpdateView": {
+				"title": "DatabaseDtoReleaseUpdateView",
+				"type": "object",
+				"properties": {
+					"dbid": {
+						"type": "integer",
+						"description": "Database Id",
+						"format": "int64"
+					}
+				}
+			},
+			"DatabaseDtoResponseView": {
+				"title": "DatabaseDtoResponseView",
+				"type": "object",
+				"properties": {
+					"dbid": {
+						"type": "integer",
+						"description": "Database Id",
+						"format": "int64"
+					},
+					"dbname": {
+						"type": "string",
+						"description": "Database Name"
+					}
+				}
+			},
+			"DatabaseResponseDatabaseResponseView": {
+				"title": "DatabaseResponseDatabaseResponseView",
+				"type": "object",
+				"properties": {
+					"databases": {
+						"type": "array",
+						"items": {
+							"type": "object"
+						}
+					},
+					"last": {
+						"type": "boolean"
+					},
+					"pageNo": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"pageSize": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"totalElements": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalPages": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"DbTypeDtoDatabaseCreateView": {
+				"title": "DbTypeDtoDatabaseCreateView",
+				"type": "object",
+				"properties": {
+					"typeid": {
+						"type": "integer",
+						"description": "Database Type Id",
+						"format": "int64"
+					}
+				}
+			},
+			"DbTypeDtoDatabaseResponseView": {
+				"title": "DbTypeDtoDatabaseResponseView",
+				"type": "object",
+				"properties": {
+					"description": {
+						"type": "string",
+						"description": "Database Description"
+					},
+					"typeid": {
+						"type": "integer",
+						"description": "Database Type Id",
+						"format": "int64"
+					},
+					"typename": {
+						"type": "string",
+						"description": "Type name"
+					},
+					"version": {
+						"type": "string",
+						"description": "Database Version"
+					}
+				}
+			},
+			"DbTypeDtoDatabaseUpdateView": {
+				"title": "DbTypeDtoDatabaseUpdateView",
+				"type": "object",
+				"properties": {
+					"typeid": {
+						"type": "integer",
+						"description": "Database Type Id",
+						"format": "int64"
+					}
+				}
+			},
+			"DbTypeResponseDatabaseResponseView": {
+				"title": "DbTypeResponseDatabaseResponseView",
+				"type": "object",
+				"properties": {
+					"databaseTypes": {
+						"type": "array",
+						"items": {
+							"type": "object"
+						}
+					},
+					"last": {
+						"type": "boolean"
+					},
+					"pageNo": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"pageSize": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"totalElements": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalPages": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"JWTAuthResponse": {
+				"title": "JWTAuthResponse",
+				"type": "object",
+				"properties": {
+					"accessToken": {
+						"type": "string"
+					},
+					"tokenType": {
+						"type": "string"
+					}
+				}
+			},
+			"LoginDto": {
+				"title": "LoginDto",
+				"type": "object",
+				"properties": {
+					"loginnameOrEmail": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				}
+			},
+			"ModelAndView": {
+				"title": "ModelAndView",
+				"type": "object",
+				"properties": {
+					"empty": {
+						"type": "boolean"
+					},
+					"model": {
+						"type": "object"
+					},
+					"modelMap": {
+						"type": "object",
+						"additionalProperties": {
+							"type": "object"
+						}
+					},
+					"reference": {
+						"type": "boolean"
+					},
+					"status": {
+						"type": "string",
+						"enum": [
+							"ACCEPTED",
+							"ALREADY_REPORTED",
+							"BAD_GATEWAY",
+							"BAD_REQUEST",
+							"BANDWIDTH_LIMIT_EXCEEDED",
+							"CHECKPOINT",
+							"CONFLICT",
+							"CONTINUE",
+							"CREATED",
+							"DESTINATION_LOCKED",
+							"EXPECTATION_FAILED",
+							"FAILED_DEPENDENCY",
+							"FORBIDDEN",
+							"FOUND",
+							"GATEWAY_TIMEOUT",
+							"GONE",
+							"HTTP_VERSION_NOT_SUPPORTED",
+							"IM_USED",
+							"INSUFFICIENT_SPACE_ON_RESOURCE",
+							"INSUFFICIENT_STORAGE",
+							"INTERNAL_SERVER_ERROR",
+							"I_AM_A_TEAPOT",
+							"LENGTH_REQUIRED",
+							"LOCKED",
+							"LOOP_DETECTED",
+							"METHOD_FAILURE",
+							"METHOD_NOT_ALLOWED",
+							"MOVED_PERMANENTLY",
+							"MOVED_TEMPORARILY",
+							"MULTIPLE_CHOICES",
+							"MULTI_STATUS",
+							"NETWORK_AUTHENTICATION_REQUIRED",
+							"NON_AUTHORITATIVE_INFORMATION",
+							"NOT_ACCEPTABLE",
+							"NOT_EXTENDED",
+							"NOT_FOUND",
+							"NOT_IMPLEMENTED",
+							"NOT_MODIFIED",
+							"NO_CONTENT",
+							"OK",
+							"PARTIAL_CONTENT",
+							"PAYLOAD_TOO_LARGE",
+							"PAYMENT_REQUIRED",
+							"PERMANENT_REDIRECT",
+							"PRECONDITION_FAILED",
+							"PRECONDITION_REQUIRED",
+							"PROCESSING",
+							"PROXY_AUTHENTICATION_REQUIRED",
+							"REQUESTED_RANGE_NOT_SATISFIABLE",
+							"REQUEST_ENTITY_TOO_LARGE",
+							"REQUEST_HEADER_FIELDS_TOO_LARGE",
+							"REQUEST_TIMEOUT",
+							"REQUEST_URI_TOO_LONG",
+							"RESET_CONTENT",
+							"SEE_OTHER",
+							"SERVICE_UNAVAILABLE",
+							"SWITCHING_PROTOCOLS",
+							"TEMPORARY_REDIRECT",
+							"TOO_EARLY",
+							"TOO_MANY_REQUESTS",
+							"UNAUTHORIZED",
+							"UNAVAILABLE_FOR_LEGAL_REASONS",
+							"UNPROCESSABLE_ENTITY",
+							"UNSUPPORTED_MEDIA_TYPE",
+							"UPGRADE_REQUIRED",
+							"URI_TOO_LONG",
+							"USE_PROXY",
+							"VARIANT_ALSO_NEGOTIATES"
+						]
+					},
+					"view": {
+						"$ref": "#/components/schemas/View"
+					},
+					"viewName": {
+						"type": "string"
+					}
+				}
+			},
+			"ProjectDtoCreateView": {
+				"title": "ProjectDtoCreateView",
+				"type": "object",
+				"properties": {
+					"description": {
+						"type": "string",
+						"description": "Project Description name"
+					},
+					"name": {
+						"type": "string",
+						"description": "Project name"
+					}
+				}
+			},
+			"ProjectDtoParentUpdateView": {
+				"title": "ProjectDtoParentUpdateView",
+				"type": "object",
+				"properties": {
+					"description": {
+						"type": "string",
+						"description": "Project Description name"
+					},
+					"id": {
+						"type": "integer",
+						"description": "Project id",
+						"format": "int64"
+					},
+					"name": {
+						"type": "string",
+						"description": "Project name"
+					},
+					"releases": {
+						"uniqueItems": true,
+						"type": "array",
+						"description": "List of releases in this project",
+						"items": {
+							"$ref": "#/components/schemas/ReleaseDtoParentUpdateView"
+						}
+					},
+					"users": {
+						"uniqueItems": true,
+						"type": "array",
+						"description": "List of project owners",
+						"items": {
+							"$ref": "#/components/schemas/UserDtoParentUpdateView"
+						}
+					}
+				}
+			},
+			"ProjectDtoResponseView": {
+				"title": "ProjectDtoResponseView",
+				"type": "object",
+				"properties": {
+					"created": {
+						"type": "string",
+						"description": "Project creation date",
+						"format": "date-time"
+					},
+					"description": {
+						"type": "string",
+						"description": "Project Description name"
+					},
+					"id": {
+						"type": "integer",
+						"description": "Project id",
+						"format": "int64"
+					},
+					"name": {
+						"type": "string",
+						"description": "Project name"
+					},
+					"releases": {
+						"uniqueItems": true,
+						"type": "array",
+						"description": "List of releases in this project",
+						"items": {
+							"$ref": "#/components/schemas/ReleaseDtoResponseView"
+						}
+					},
+					"updated": {
+						"type": "string",
+						"description": "Project last change date",
+						"format": "date-time"
+					},
+					"users": {
+						"uniqueItems": true,
+						"type": "array",
+						"description": "List of project owners",
+						"items": {
+							"$ref": "#/components/schemas/UserDtoResponseView"
+						}
+					}
+				}
+			},
+			"ProjectResponseResponseView": {
+				"title": "ProjectResponseResponseView",
+				"type": "object",
+				"properties": {
+					"last": {
+						"type": "boolean"
+					},
+					"pageNo": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"pageSize": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"projects": {
+						"type": "array",
+						"items": {
+							"type": "object"
+						}
+					},
+					"totalElements": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalPages": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"ReleaseDtoCreateView": {
+				"title": "ReleaseDtoCreateView",
+				"type": "object",
+				"properties": {
+					"description": {
+						"type": "string",
+						"description": "Release Description"
+					},
+					"name": {
+						"type": "string",
+						"description": "Name for the release"
+					},
+					"projectId": {
+						"type": "integer",
+						"description": "Parent Project",
+						"format": "int64"
+					},
+					"since": {
+						"type": "string",
+						"description": "Date of Release",
+						"format": "date-time"
+					},
+					"version": {
+						"type": "string",
+						"description": "Release version number"
+					}
+				}
+			},
+			"ReleaseDtoParentUpdateView": {
+				"title": "ReleaseDtoParentUpdateView",
+				"type": "object",
+				"properties": {
+					"releaseid": {
+						"type": "integer",
+						"description": "Release Id",
+						"format": "int64"
+					}
+				}
+			},
+			"ReleaseDtoReleaseUpdateView": {
+				"title": "ReleaseDtoReleaseUpdateView",
+				"type": "object",
+				"properties": {
+					"databases": {
+						"uniqueItems": true,
+						"type": "array",
+						"description": "List of Databases in this release",
+						"items": {
+							"$ref": "#/components/schemas/DatabaseDtoReleaseUpdateView"
+						}
+					},
+					"description": {
+						"type": "string",
+						"description": "Release Description"
+					},
+					"name": {
+						"type": "string",
+						"description": "Name for the release"
+					},
+					"releaseid": {
+						"type": "integer",
+						"description": "Release Id",
+						"format": "int64"
+					},
+					"since": {
+						"type": "string",
+						"description": "Date of Release",
+						"format": "date-time"
+					},
+					"version": {
+						"type": "string",
+						"description": "Release version number"
+					}
+				}
+			},
+			"ReleaseDtoResponseView": {
+				"title": "ReleaseDtoResponseView",
+				"type": "object",
+				"properties": {
+					"created": {
+						"type": "string",
+						"description": "Release creation date",
+						"format": "date-time"
+					},
+					"databases": {
+						"uniqueItems": true,
+						"type": "array",
+						"description": "List of Databases in this release",
+						"items": {
+							"$ref": "#/components/schemas/DatabaseDtoResponseView"
+						}
+					},
+					"description": {
+						"type": "string",
+						"description": "Release Description"
+					},
+					"name": {
+						"type": "string",
+						"description": "Name for the release"
+					},
+					"projectId": {
+						"type": "integer",
+						"description": "Parent Project",
+						"format": "int64"
+					},
+					"releaseid": {
+						"type": "integer",
+						"description": "Release Id",
+						"format": "int64"
+					},
+					"since": {
+						"type": "string",
+						"description": "Date of Release",
+						"format": "date-time"
+					},
+					"updated": {
+						"type": "string",
+						"description": "Release last change date",
+						"format": "date-time"
+					},
+					"version": {
+						"type": "string",
+						"description": "Release version number"
+					}
+				}
+			},
+			"ReleaseResponseResponseView": {
+				"title": "ReleaseResponseResponseView",
+				"type": "object",
+				"properties": {
+					"last": {
+						"type": "boolean"
+					},
+					"pageNo": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"pageSize": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"releases": {
+						"type": "array",
+						"items": {
+							"type": "object"
+						}
+					},
+					"totalElements": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalPages": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"SignUpDto": {
+				"title": "SignUpDto",
+				"type": "object",
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					},
+					"loginname": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"surname": {
+						"type": "string"
+					}
+				}
+			},
+			"TableDtoDatabaseResponseView": {
+				"title": "TableDtoDatabaseResponseView",
+				"type": "object",
+				"properties": {
+					"tableid": {
+						"type": "integer",
+						"description": "Table Id",
+						"format": "int64"
+					},
+					"tablename": {
+						"type": "string",
+						"description": "Table Name"
+					}
+				}
+			},
+			"TableDtoResponseView": {
+				"title": "TableDtoResponseView",
+				"type": "object",
+				"properties": {
+					"collation": {
+						"description": "Collation and charset of this table",
+						"$ref": "#/components/schemas/CollationDtoResponseView"
+					},
+					"columns": {
+						"uniqueItems": true,
+						"type": "array",
+						"description": "Column definitions",
+						"items": {
+							"$ref": "#/components/schemas/ColumnsDtoResponseView"
+						}
+					},
+					"created": {
+						"type": "string",
+						"description": "Table creation date",
+						"format": "date-time"
+					},
+					"databaseId": {
+						"type": "integer",
+						"description": "Database/Scheme of this table",
+						"format": "int64"
+					},
+					"description": {
+						"type": "string",
+						"description": "Table description or comment"
+					},
+					"tableformat": {
+						"description": "Tableformat (storage engine) of this table",
+						"$ref": "#/components/schemas/TableformatDtoResponseView"
+					},
+					"tableid": {
+						"type": "integer",
+						"description": "Table Id",
+						"format": "int64"
+					},
+					"tablename": {
+						"type": "string",
+						"description": "Table Name"
+					},
+					"updated": {
+						"type": "string",
+						"description": "Table last change date",
+						"format": "date-time"
+					}
+				}
+			},
+			"TableDtoTableCreateView": {
+				"title": "TableDtoTableCreateView",
+				"type": "object",
+				"properties": {
+					"collation": {
+						"description": "Collation and charset of this table",
+						"$ref": "#/components/schemas/CollationDtoTableCreateView"
+					},
+					"databaseId": {
+						"type": "integer",
+						"description": "Database/Scheme of this table",
+						"format": "int64"
+					},
+					"description": {
+						"type": "string",
+						"description": "Table description or comment"
+					},
+					"tableformat": {
+						"description": "Tableformat (storage engine) of this table",
+						"$ref": "#/components/schemas/TableformatDtoTableCreateView"
+					},
+					"tablename": {
+						"type": "string",
+						"description": "Table Name"
+					}
+				}
+			},
+			"TableDtoTableUpdateView": {
+				"title": "TableDtoTableUpdateView",
+				"type": "object",
+				"properties": {
+					"collation": {
+						"description": "Collation and charset of this table",
+						"$ref": "#/components/schemas/CollationDtoTableUpdateView"
+					},
+					"databaseId": {
+						"type": "integer",
+						"description": "Database/Scheme of this table",
+						"format": "int64"
+					},
+					"description": {
+						"type": "string",
+						"description": "Table description or comment"
+					},
+					"tableformat": {
+						"description": "Tableformat (storage engine) of this table",
+						"$ref": "#/components/schemas/TableformatDtoTableUpdateView"
+					},
+					"tablename": {
+						"type": "string",
+						"description": "Table Name"
+					}
+				}
+			},
+			"TableResponseResponseView": {
+				"title": "TableResponseResponseView",
+				"type": "object",
+				"properties": {
+					"last": {
+						"type": "boolean"
+					},
+					"pageNo": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"pageSize": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"tables": {
+						"type": "array",
+						"items": {
+							"type": "object"
+						}
+					},
+					"totalElements": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"totalPages": {
+						"type": "integer",
+						"format": "int32"
+					}
+				}
+			},
+			"TableformatDtoResponseView": {
+				"title": "TableformatDtoResponseView",
+				"type": "object",
+				"properties": {
+					"description": {
+						"type": "string",
+						"description": "Description"
+					},
+					"formatid": {
+						"type": "integer",
+						"description": "Format Id",
+						"format": "int64"
+					},
+					"formatname": {
+						"type": "string",
+						"description": "Format name"
+					},
+					"typename": {
+						"type": "string",
+						"description": "DB Type name"
+					}
+				}
+			},
+			"TableformatDtoTableCreateView": {
+				"title": "TableformatDtoTableCreateView",
+				"type": "object",
+				"properties": {
+					"formatid": {
+						"type": "integer",
+						"description": "Format Id",
+						"format": "int64"
+					}
+				}
+			},
+			"TableformatDtoTableUpdateView": {
+				"title": "TableformatDtoTableUpdateView",
+				"type": "object",
+				"properties": {
+					"formatid": {
+						"type": "integer",
+						"description": "Format Id",
+						"format": "int64"
+					}
+				}
+			},
+			"UserDtoParentUpdateView": {
+				"title": "UserDtoParentUpdateView",
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"description": "Unique User ID",
+						"format": "int64"
+					}
+				}
+			},
+			"UserDtoResponseView": {
+				"title": "UserDtoResponseView",
+				"type": "object",
+				"properties": {
+					"created": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"email": {
+						"type": "string"
+					},
+					"id": {
+						"type": "integer",
+						"description": "Unique User ID",
+						"format": "int64"
+					},
+					"lastname": {
+						"type": "string",
+						"description": "User lastname"
+					},
+					"surname": {
+						"type": "string",
+						"description": "User surname"
+					},
+					"updated": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"View": {
+				"title": "View",
+				"type": "object",
+				"properties": {
+					"contentType": {
+						"type": "string"
+					}
+				}
+			}
+		},
+		"securitySchemes": {
+			"JWT Token": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	}
+}

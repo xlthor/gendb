@@ -105,6 +105,24 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+			    <groupId>org.springdoc</groupId>
+			    <artifactId>springdoc-openapi-maven-plugin</artifactId>
+			    <version>0.2</version>
+			    <executions>
+			        <execution>
+			            <phase>integration-test</phase>
+			            <goals>
+			                <goal>generate</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			    <configuration> 
+			        <apiDocsUrl>http://localhost:8080/v3/api-docs</apiDocsUrl> 
+			        <outputFileName>gendb-swagger.json</outputFileName> 
+			        <outputDir>${project.basedir}</outputDir> 
+			    </configuration>
+			</plugin>
 		</plugins>
 	</build>
 
