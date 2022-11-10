@@ -37,6 +37,10 @@ apply the according modifications within the new release.
 GenDB generates the migration scripts automatically by comparing two given releases (i.e. "migrate to version 2 from version 1") and these scripts 
 can be applied to an existing database to migrate it to the new version (i.e. with tools like flyway etc.).
 
+# Documentation
+
+REST API dosumentation is available at https://xlthor.github.io/gendb/
+
 # Current Status of Development
 
 * October 2022:<br>
