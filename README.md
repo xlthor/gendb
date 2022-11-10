@@ -39,7 +39,7 @@ can be applied to an existing database to migrate it to the new version (i.e. wi
 
 # Documentation
 
-REST API documentation is available at https://xlthor.github.io/gendb/
+REST API documentation is available at [https://xlthor.github.io/gendb/](https://xlthor.github.io/gendb/){target="_blank"}
 
 # Current Status of Development
 
